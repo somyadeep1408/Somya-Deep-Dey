@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experience | Somya Deep Dey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Specific graphic styles for this page */
+        .skill-bar { background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
+        .skill-fill { height: 100%; background: var(--primary); width: 0; animation: fillBar 1.5s forwards; }
+        @keyframes fillBar { to { width: var(--w); } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SDD.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="projects.html">Research & Projects</a>
+            <a href="experience.html" class="active">Experience & Skills</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+            <div>
+                <h2 style="margin-bottom: 30px; color: var(--primary);">Professional Journey</h2>
+                <div class="timeline">
+                    
+                    <div class="timeline-item">
+                        <h4 style="color: var(--accent);">July 2025 – Nov 2025</h4>
+                        <h3>Engineer</h3>
+                        <p><strong>EPP Composites Pvt. Ltd.</strong></p>
+                        <p>Led 10+ pilot-scale trials. Applied process simulation (DWSIM, ASPEN) and CFD for optimization.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: var(--accent);">July 2023 – July 2025</h4>
+                        <h3>Teaching Assistant</h3>
+                        <p><strong>IIT Jodhpur</strong></p>
+                        <p>Assisted in Polymer Science and Thermodynamics. Mentored undergraduates in research.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: var(--accent);">July 2022 – August 2022</h4>
+                        <h3>Research Intern</h3>
+                        <p><strong>DRDO (ADRDE)</strong></p>
+                        <p>Characterized mechanical/thermal properties of aerospace fabrics.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 style="margin-bottom: 30px; color: var(--primary);">Technical Arsenal</h2>
+                
+                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div style="display:flex; justify-content:space-between;"><span>CFD (OpenFOAM/Ansys)</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" style="--w: 90%"></div></div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display:flex; justify-content:space-between;"><span>Process Simulation (ASPEN/DWSIM)</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" style="--w: 85%"></div></div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display:flex; justify-content:space-between;"><span>MATLAB & Python</span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" style="--w: 80%"></div></div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="display:flex; justify-content:space-between;"><span>Characterization (XRD, SEM, FTIR)</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" style="--w: 95%"></div></div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 30px; background: var(--secondary); color: white; padding: 30px; border-radius: 20px;">
+                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div style="margin-top: 15px;">
+                        [cite_start]<p><strong>M.Tech Chemical Engineering</strong> [cite: 8]</p>
+                        [cite_start]<p>IIT Jodhpur (CGPA: 8.04) [cite: 9]</p>
+                    </div>
+                    <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                        [cite_start]<p><strong>B.Tech Man-Made Fibre Tech</strong> [cite: 13]</p>
+                        [cite_start]<p>UPTTI Kanpur (CGPA: 7.69) [cite: 13]</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Somya Deep Dey</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

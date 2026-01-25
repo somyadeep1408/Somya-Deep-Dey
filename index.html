@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somya Deep Dey | My Journey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- JOURNEY SPECIFIC STYLES --- */
+        
+        body {
+            background-color: #0f172a; /* Dark background */
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Hero Text at the top */
+        .intro-header {
+            text-align: center;
+            padding: 120px 20px 50px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .intro-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .journey-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 20px 200px;
+        }
+
+        /* The SVG Line Container */
+        .svg-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%; /* Spans the whole height */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #journey-path {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 4;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5));
+        }
+
+        #tracer {
+            fill: var(--accent);
+            filter: drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* Content Nodes */
+        .milestone {
+            position: relative;
+            z-index: 2;
+            width: 45%;
+            margin-bottom: 300px; /* Space between stops */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .milestone:nth-child(odd) { margin-left: auto; text-align: left; padding-left: 60px; }
+        .milestone:nth-child(even) { margin-right: auto; text-align: right; padding-right: 60px; }
+
+        .milestone.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .milestone h2 { font-size: 2.2rem; color: var(--accent); margin-bottom: 5px; }
+        .milestone h3 { font-size: 1.3rem; color: white; margin-bottom: 15px; font-weight: 400; }
+        .milestone p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; }
+        
+        .year-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* LOGO STYLES */
+        .org-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+            position: absolute;
+            top: 0;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .org-logo:hover { transform: scale(1.1) rotate(5deg); }
+
+        /* Positioning logos based on side */
+        .milestone:nth-child(odd) .org-logo { 
+            right: 100%; 
+            margin-right: -40px; /* Centers logo on the line roughly */
+            left: auto;
+        }
+        
+        .milestone:nth-child(even) .org-logo { 
+            left: 100%; 
+            margin-left: -40px;
+            right: auto;
+        }
+
+        /* Marker dots */
+        .marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 15px var(--accent);
+        }
+        .start-marker { top: 0; }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            .milestone { width: 90%; margin: 0 auto 150px auto !important; text-align: center !important; padding: 0 !important; }
+            .svg-container { display: none; } /* Hide complicated line on mobile */
+            .org-logo { position: relative; right: auto; left: auto; margin: 0 auto 20px auto; display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    
+
+    <nav>
+        <div class="logo">SDD.</div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Journey</a>
+            <a href="projects.html">Projects</a>
+            <a href="experience.html">Skills</a>
+        </div>
+    </nav>
+
+    <div class="intro-header">
+        <h1>Somya Deep Dey</h1>
+        <p style="color: #94a3b8; font-size: 1.2rem;">From Chemical Engineering to Process Systems Innovation</p>
+        <div style="margin-top: 20px;">
+            <i class="fas fa-chevron-down" style="animation: bounce 2s infinite"></i>
+        </div>
+    </div>
+
+    <div class="journey-container">
+        
+        <div class="svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 400 1600" preserveAspectRatio="none">
+                <path id="journey-path" d="M 200,0 C 200,200 350,200 350,450 C 350,700 50,700 50,950 C 50,1200 200,1200 200,1400" />
+                <circle id="tracer" cx="0" cy="0" r="8" />
+            </svg>
+        </div>
+
+        <div class="marker start-marker"></div>
+        
+        <div class="milestone">
+            <img src="images/gph.png" alt="GPH Logo" class="org-logo">
+            <span class="year-badge">2017 - 2020</span>
+            <h2>Foundation</h2>
+            <h3>Diploma, Government Polytechnic Hapur</h3>
+            <p>
+                Specialized in Textile Chemistry.
+            </p>
+        </div>
+        
+        <div class="milestone">
+            <img src="images/uptti.jpeg" alt="UPTTI Logo" class="org-logo">
+            <span class="year-badge">2020 - 2023</span>
+            <h2>Undergraduate</h2>
+            <h3>B.Tech, UPTTI Kanpur</h3>
+            <p>
+                Specialized in Man-Made Fibre Technology. Explored the synthesis of <strong>Cellulose Nanocrystals (CNCs)</strong> from cotton waste, learning material characterization and acid hydrolysis.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <img src="images/DRDO.jpeg" alt="DRDO Logo" class="org-logo">
+            <span class="year-badge">2022</span>
+            <h2>Defense Research</h2>
+            <h3>Intern, DRDO (ADRDE)</h3>
+            <p>
+                Worked on aerospace materials, characterizing <strong>PTFE-coated Kevlar composites</strong>. Used statistical analysis to achieve a 3x improvement in material strength for defense applications.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <img src="images/iitj.png" alt="IIT Jodhpur Logo" class="org-logo">
+            <span class="year-badge">2023 - 2025</span>
+            <h2>Graduate</h2>
+            <h3>M.Tech, IIT Jodhpur</h3>
+            <p>
+                Focused on <strong>CFD & Energy Technologies</strong>. My thesis integrated metal oxide nanoparticles into phase change materials (iPCM) for solar thermal energy storage.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <img src="images/epp.png" alt="EPP Logo" class="org-logo">
+            <span class="year-badge">2025</span>
+            <h2>Industrial Impact</h2>
+            <h3>Engineer, EPP Composites</h3>
+            <p>
+                Led pilot-scale trials and applied <strong>OpenFOAM & DWSIM</strong> for process simulation, optimizing wastewater treatment systems and industrial workflows.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const path = document.getElementById('journey-path');
+            const tracer = document.getElementById('tracer');
+            const milestones = document.querySelectorAll('.milestone');
+            
+            // Mobile check: disable complex path logic on small screens
+            if(window.innerWidth < 768) return;
+
+            const pathLength = path.getTotalLength();
+
+            path.style.strokeDasharray = pathLength;
+            path.style.strokeDashoffset = pathLength;
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = scrollTop / docHeight;
+
+                // Draw line
+                const drawLength = pathLength * scrollPercent * 1.3; // Speed multiplier
+                const offset = Math.max(pathLength - drawLength, 0);
+                path.style.strokeDashoffset = offset;
+
+                // Move tracer
+                const pt = path.getPointAtLength(pathLength - offset);
+                tracer.setAttribute("cx", pt.x);
+                tracer.setAttribute("cy", pt.y);
+
+                // Reveal text blocks
+                milestones.forEach(m => {
+                    const rect = m.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.75) {
+                        m.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <script src="script.js"></script>
+    
+    <style>
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+    
+    
+</body>
+</html>

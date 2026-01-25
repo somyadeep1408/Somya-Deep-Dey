@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey | Somya Deep Dey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- JOURNEY SPECIFIC STYLES --- */
+        
+        body {
+            background-color: #0f172a; /* Dark background for high contrast */
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .journey-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 20px 200px; /* Extra padding at bottom for scroll space */
+        }
+
+        /* The SVG Line Container */
+        .svg-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* The Line Itself */
+        #journey-path {
+            fill: none;
+            stroke: var(--primary); /* Blue line */
+            stroke-width: 4;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5));
+        }
+
+        /* The Moving Molecule/Tracer */
+        #tracer {
+            fill: var(--accent); /* Cyan dot */
+            filter: drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* Content Nodes */
+        .milestone {
+            position: relative;
+            z-index: 2;
+            width: 45%;
+            margin-bottom: 300px; /* Space between stops */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        /* Alternating Sides */
+        .milestone:nth-child(odd) { margin-left: auto; text-align: left; padding-left: 50px; }
+        .milestone:nth-child(even) { margin-right: auto; text-align: right; padding-right: 50px; }
+
+        .milestone.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .milestone h2 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        .milestone h3 { font-size: 1.5rem; color: white; margin-bottom: 15px; }
+        .milestone p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; }
+        
+        .year-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Floating Graphics near milestones */
+        .floating-icon {
+            font-size: 4rem;
+            position: absolute;
+            opacity: 0.1;
+            top: -20px;
+        }
+        .milestone:nth-child(odd) .floating-icon { right: 100%; margin-right: 20px; }
+        .milestone:nth-child(even) .floating-icon { left: 100%; margin-left: 20px; }
+
+        /* Start/End Markers */
+        .marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 20px white;
+        }
+        .start-marker { top: 100px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SDD.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="journey.html" class="active">My Journey</a>
+        </div>
+    </nav>
+
+    <div class="journey-container">
+        
+        <div class="svg-container">
+            <svg width="100%" height="100%" viewBox="0 0 400 1600" preserveAspectRatio="none">
+                <path id="journey-path" d="M 200,100 C 200,400 350,400 350,700 C 350,1000 50,1000 50,1300 C 50,1600 200,1600 200,1900" />
+                
+                <circle id="tracer" cx="0" cy="0" r="8" />
+            </svg>
+        </div>
+
+        <div class="marker start-marker"></div>
+
+        <div class="milestone">
+            <i class="fas fa-flask floating-icon"></i>
+            <span class="year-badge">2019 - 2023</span>
+            <h2>The Foundation</h2>
+            <h3>B.Tech, UPTTI Kanpur</h3>
+            <p>
+                My journey began with Man-Made Fibre Technology. Here, I explored the synthesis of <strong>Cellulose Nanocrystals (CNCs)</strong> from cotton waste, learning the delicate art of material characterization and acid hydrolysis.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <i class="fas fa-shield-alt floating-icon"></i>
+            <span class="year-badge">2022</span>
+            <h2>Defense Innovation</h2>
+            <h3>Research Intern, DRDO</h3>
+            <p>
+                At ADRDE Agra, I stepped into the world of aerospace. I worked on high-performance <strong>PTFE-coated Kevlar composites</strong>, using statistical analysis to achieve a 3x improvement in material strength for defense applications.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <i class="fas fa-atom floating-icon"></i>
+            <span class="year-badge">2023 - 2025</span>
+            <h2>Mastering Systems</h2>
+            <h3>M.Tech, IIT Jodhpur</h3>
+            <p>
+                Transitioning to Chemical Engineering, I specialized in <strong>CFD & Energy Technologies</strong>. My thesis focused on Thermal Energy Storage, integrating metal oxide nanoparticles into phase change materials for solar applications.
+            </p>
+        </div>
+
+        <div class="milestone">
+            <i class="fas fa-industry floating-icon"></i>
+            <span class="year-badge">2025</span>
+            <h2>Industrial Scale</h2>
+            <h3>Engineer, EPP Composites</h3>
+            <p>
+                Applying theory to practice. I led pilot-scale trials and utilized <strong>OpenFOAM & DWSIM</strong> for process simulation, optimizing wastewater treatment systems and industrial workflows.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- SCROLL ANIMATION LOGIC ---
+        
+        const path = document.getElementById('journey-path');
+        const tracer = document.getElementById('tracer');
+        const milestones = document.querySelectorAll('.milestone');
+        
+        // Get the total length of the path
+        const pathLength = path.getTotalLength();
+
+        // Hide the path initially using dasharray/dashoffset
+        path.style.strokeDasharray = pathLength;
+        path.style.strokeDashoffset = pathLength;
+
+        function updateJourney() {
+            // Calculate how far down the user has scrolled relative to the container
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight;
+
+            // 1. Draw the line based on scroll percentage
+            // We multiply by slightly more (1.2) to ensure the line finishes before the very bottom
+            const drawLength = pathLength * scrollPercent * 1.5; 
+            
+            // Prevent drawing past the end
+            const offset = Math.max(pathLength - drawLength, 0);
+            path.style.strokeDashoffset = offset;
+
+            // 2. Move the tracer molecule along the path
+            // Get the point on the line at the current length
+            const currentPoint = path.getPointAtLength(pathLength - offset);
+            tracer.setAttribute("cx", currentPoint.x);
+            tracer.setAttribute("cy", currentPoint.y);
+
+            // 3. Fade in milestones when the tracer passes them
+            milestones.forEach(milestone => {
+                const rect = milestone.getBoundingClientRect();
+                // If the milestone is in the middle of the screen
+                if (rect.top < window.innerHeight * 0.7) {
+                    milestone.classList.add('active');
+                }
+            });
+        }
+
+        // Attach to scroll event
+        window.addEventListener('scroll', updateJourney);
+        
+        // Run once on load
+        updateJourney();
+    </script>
+</body>
+</html>
