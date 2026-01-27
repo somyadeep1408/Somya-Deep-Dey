@@ -6,23 +6,67 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Specific Styles for Video Integration */
-        .video-container {
-            width: 100%;
-            background: #000;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
+        /* --- FEATURED LARGE PANE STYLES --- */
         
-        .project-video {
-            width: 100%;
-            display: block;
-            max-height: 250px; /* Limits height to keep cards uniform */
-            object-fit: cover; /* Ensures video fills the area nicely */
+        /* The container for the large video projects */
+        .featured-section {
+            display: flex;
+            flex-direction: column;
+            gap: 60px; /* Space between the two large projects */
+            margin-bottom: 80px;
         }
 
-        /* Adjust card header to be an overlay or removed if video is present */
-        .card.has-video .card-header {
-            display: none; /* Hide icon header if we have a video */
+        .featured-pane {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+            /* This ensures it uses the full width of the container */
+            width: 100%; 
+        }
+
+        /* Large Video Header */
+        .large-video-container {
+            width: 100%;
+            background: #000;
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .large-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures the whole video is visible */
+        }
+
+        .pane-content {
+            padding: 30px;
+        }
+
+        .pane-content h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .pane-meta {
+            color: var(--primary);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .tech-stack {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
@@ -38,38 +82,69 @@
     </nav>
 
     <div class="container">
-        <div style="text-align: center;"><h1 class="page-title">Research Portfolio</h1></div>
+        
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h1 class="page-title">Featured Simulations</h1>
+            <p style="font-size: 1.1rem; color: #64748b;">Showcasing computational modeling and experimental video analysis</p>
+        </div>
 
-        <div class="project-grid">
+        <div class="featured-section">
             
-            <div class="card has-video">
-                <div class="video-container">
-                    <video controls class="project-video">
-                        <source src="videos/Multimedia content.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="card-body">
-                    <h3>Biochar Synthesis</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">Green Technology & Energy Storage</p>
-                    <p>Synthesized raw-coconut based biochar and incorporated iPCM. The video demonstrates the effect of immersion impregnated coir-biochar in Magnesium Nitrate Hexahydrate for efficient thermal energy storage.</p>
-                </div>
-            </div>
-
-            <div class="card has-video">
-                <div class="video-container">
-                    <video controls loop class="project-video">
+            <div class="featured-pane scroll-3d-item">
+                <div class="large-video-container">
+                    <video controls loop class="large-video">
                         <source src="videos/animation.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <div class="card-body">
-                    <h3>CFD Simulation</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">OpenFOAM Analysis</p>
-                    <p>Computational Fluid Dynamics simulation visualizing velocity magnitude ($U Magnitude$). Used for process optimization and analyzing flow dynamics in mixing systems.</p>
+                <div class="pane-content">
+                    <span class="pane-meta">Computational Fluid Dynamics</span>
+                    <h2>Velocity Magnitude Analysis</h2>
+                    <p>
+                        A comprehensive CFD simulation visualized using OpenFOAM and ParaView. 
+                        The video demonstrates the velocity magnitude ($U Magnitude$) distribution within a mixing system, highlighting flow dynamics and turbulence zones. 
+                        This simulation helps in optimizing geometry for uniform mixing efficiency.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tag">OpenFOAM</span>
+                        <span class="tag">ParaView</span>
+                        <span class="tag">Process Optimization</span>
+                    </div>
                 </div>
             </div>
 
+            <div class="featured-pane scroll-3d-item">
+                <div class="large-video-container">
+                    <video controls class="large-video">
+                        <source src="videos/Multimedia content.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="pane-content">
+                    <span class="pane-meta">Green Technology & Energy Storage</span>
+                    <h2>Biochar in Phase Change Material</h2>
+                    <p>
+                        Experimental synthesis of raw-coconut based biochar. The video captures the immersion impregnation process of coir-biochar into 
+                        Magnesium Nitrate Hexahydrate. This composite material is engineered for high thermal cycling stability 
+                        in Thermal Energy Storage applications.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tag">Experimental Analysis</span>
+                        <span class="tag">Nanomaterials</span>
+                        <span class="tag">Green Tech</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div style="text-align: center; margin: 80px 0 40px;">
+            <h2 class="page-title" style="font-size: 2rem; border-bottom: 3px solid var(--accent);">Other Research</h2>
+        </div>
+
+        <div class="project-grid">
+            
             <div class="card">
                 <div class="card-header" style="background: linear-gradient(135deg, #4f46e5, #312e81);">
                     <i class="fas fa-plane"></i>
@@ -82,13 +157,13 @@
             </div>
 
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" style="background: linear-gradient(135deg, #f59e0b, #b45309);">
                     <i class="fas fa-sun"></i> 
                 </div>
                 <div class="card-body">
                     <h3>Thermal Energy Storage</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis | IIT Jodhpur</p>
-                    <p>Investigated inorganic phase change materials (iPCM) enhanced with metal oxide nanoparticles for solar thermal applications. Conducted photothermal conversion experiments.</p>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis</p>
+                    <p>Investigated inorganic phase change materials (iPCM) enhanced with metal oxide nanoparticles. Conducted photothermal conversion experiments.</p>
                 </div>
             </div>
 
