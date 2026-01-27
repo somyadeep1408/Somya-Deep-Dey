@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Somya Deep Dey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- GALLERY SPECIFIC STYLES --- */
+        
+        .gallery-header {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+
+        /* Filter Buttons */
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* MASONRY LAYOUT (Pinterest Style) */
+        .gallery-container {
+            column-count: 3; /* 3 Columns on big screens */
+            column-gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 5px solid white;
+            background: white;
+        }
+
+        .gallery-img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        /* Hover Overlay Effect */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .overlay { opacity: 1; }
+        .gallery-item:hover .gallery-img { transform: scale(1.1); }
+
+        .caption {
+            color: white;
+            font-weight: bold;
+            transform: translateY(20px);
+            transition: 0.3s;
+        }
+        .gallery-item:hover .caption { transform: translateY(0); }
+
+        /* LIGHTBOX (Full Screen View) */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lightbox.active { display: flex; animation: fadeIn 0.3s; }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 5px solid white;
+            border-radius: 5px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px; right: 40px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-btn:hover { color: var(--accent); transform: rotate(90deg); }
+
+        /* Responsive Columns */
+        @media (max-width: 900px) { .gallery-container { column-count: 2; } }
+        @media (max-width: 600px) { .gallery-container { column-count: 1; } }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SDD.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="projects.html">Research & Projects</a>
+            <a href="experience.html">Experience & Skills</a>
+            <a href="contact.html">Contact me</a>
+        </div>
+    </nav>
+
+    <div class="gallery-header">
+        <h1 style="font-size: 3rem; color: var(--secondary);">Captured Moments</h1>
+        <p style="color: #64748b;">Research, Campus Life, and Travels</p>
+    </div>
+
+    <div class="filter-nav">
+        <button class="filter-btn active" onclick="filterGallery('all')">All Photos</button>
+        <button class="filter-btn" onclick="filterGallery('research')">Research</button>
+        <button class="filter-btn" onclick="filterGallery('campus')">IIT Jodhpur</button>
+        <button class="filter-btn" onclick="filterGallery('personal')">Personal</button>
+    </div>
+
+    <div class="gallery-container">
+
+        <div class="gallery-item scroll-3d-item" data-category="research">
+            <img src="images/gallery/1.jpg" alt="Lab Work" class="gallery-img">
+            <div class="overlay">
+                <div class="caption"><i class="fas fa-flask"></i> Lab Experiments</div>
+            </div>
+        </div>
+
+        <div class="gallery-item scroll-3d-item" data-category="campus">
+            <img src="images/gallery/2.jpg" alt="IIT Jodhpur" class="gallery-img">
+            <div class="overlay">
+                <div class="caption"><i class="fas fa-university"></i> Campus View</div>
+            </div>
+        </div>
+
+        <div class="gallery-item scroll-3d-item" data-category="personal">
+            <img src="images/gallery/3.jpg" alt="Travel" class="gallery-img">
+            <div class="overlay">
+                <div class="caption"><i class="fas fa-plane"></i> DRDO Trip</div>
+            </div>
+        </div>
+
+        <div class="gallery-item scroll-3d-item" data-category="research">
+            <img src="images/gallery/4.jpg" alt="Conference" class="gallery-img">
+            <div class="overlay">
+                <div class="caption"><i class="fas fa-microphone"></i> Conference Presentation</div>
+            </div>
+        </div>
+
+        <div class="gallery-item scroll-3d-item" data-category="personal">
+            <img src="images/gallery/5.jpg" alt="Group Photo" class="gallery-img">
+            <div class="overlay">
+                <div class="caption"><i class="fas fa-users"></i> Team EPP</div>
+            </div>
+        </div>
+
+        </div>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <img src="" class="lightbox-img" id="lightbox-img">
+        <h3 id="lightbox-caption" style="color: white; margin-top: 20px; font-weight: normal;"></h3>
+    </div>
+
+    <footer>
+        <p>© 2026 Somya Deep Dey</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        // --- LIGHTBOX SCRIPT ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCap = document.getElementById('lightbox-caption');
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('.gallery-img');
+                const cap = item.querySelector('.caption').innerText;
+                
+                lightboxImg.src = img.src;
+                lightboxCap.innerText = cap;
+                lightbox.classList.add('active');
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // Close when clicking outside image
+        lightbox.addEventListener('click', (e) => {
+            if(e.target === lightbox) closeLightbox();
+        });
+
+        // --- FILTER SCRIPT ---
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if(category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
