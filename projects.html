@@ -5,15 +5,35 @@
     <title>Projects | Somya Deep Dey</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Specific Styles for Video Integration */
+        .video-container {
+            width: 100%;
+            background: #000;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .project-video {
+            width: 100%;
+            display: block;
+            max-height: 250px; /* Limits height to keep cards uniform */
+            object-fit: cover; /* Ensures video fills the area nicely */
+        }
+
+        /* Adjust card header to be an overlay or removed if video is present */
+        .card.has-video .card-header {
+            display: none; /* Hide icon header if we have a video */
+        }
+    </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">SDD.</div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="projects.html" class="active">Research & Projects</a>
-            <a href="experience.html">Experience & Skills</a>
+            <a href="index.html">Journey</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="experience.html">Skills</a>
         </div>
     </nav>
 
@@ -22,24 +42,31 @@
 
         <div class="project-grid">
             
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-sun"></i> </div>
-                <div class="card-body">
-                    <h3>Thermal Energy Storage</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis | IIT Jodhpur</p>
-                    <p>Investigated inorganic phase change materials (iPCM) enhanced with metal oxide nanoparticles for solar thermal applications. Conducted photothermal conversion experiments.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header" style="background: linear-gradient(135deg, #059669, #064e3b);">
-                    <i class="fas fa-leaf"></i>
+            <div class="card has-video">
+                <div class="video-container">
+                    <video controls class="project-video">
+                        <source src="videos/Multimedia content.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <div class="card-body">
                     <h3>Biochar Synthesis</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">Green Technology</p>
-                    <p>Synthesized raw-coconut based biochar and incorporated iPCM. Validated for high number of thermal cycles using DSC and TGA characterization.</p>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">Green Technology & Energy Storage</p>
+                    <p>Synthesized raw-coconut based biochar and incorporated iPCM. The video demonstrates the effect of immersion impregnated coir-biochar in Magnesium Nitrate Hexahydrate for efficient thermal energy storage.</p>
+                </div>
+            </div>
+
+            <div class="card has-video">
+                <div class="video-container">
+                    <video controls loop class="project-video">
+                        <source src="videos/animation.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="card-body">
+                    <h3>CFD Simulation</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">OpenFOAM Analysis</p>
+                    <p>Computational Fluid Dynamics simulation visualizing velocity magnitude ($U Magnitude$). Used for process optimization and analyzing flow dynamics in mixing systems.</p>
                 </div>
             </div>
 
@@ -51,6 +78,17 @@
                     <h3>Aerospace Composites</h3>
                     <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">DRDO Internship</p>
                     <p>Characterized PTFE-coated Kevlar and glass fabrics. Achieved 3x strength improvement through systematic experimental design.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-sun"></i> 
+                </div>
+                <div class="card-body">
+                    <h3>Thermal Energy Storage</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis | IIT Jodhpur</p>
+                    <p>Investigated inorganic phase change materials (iPCM) enhanced with metal oxide nanoparticles for solar thermal applications. Conducted photothermal conversion experiments.</p>
                 </div>
             </div>
 
@@ -71,6 +109,8 @@
     <footer>
         <p>© 2026 Somya Deep Dey</p>
     </footer>
+
     <script src="script.js"></script>
+
 </body>
 </html>
