@@ -174,3 +174,19 @@ body {
 .scroll-3d-item.in-view::after {
     opacity: 1;
 }
+
+/* --- IMAGE LOGO STYLES --- */
+.nav-logo-img {
+    height: 50px;       /* Sets a fixed height to fit the navbar */
+    width: auto;        /* Keeps the aspect ratio (doesn't stretch) */
+    display: block;     /* Removes extra space below the image */
+    object-fit: contain;
+    border-radius: 5px; /* Optional: gives the corners a slight curve */
+}
+
+/* Update the container to align properly */
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
