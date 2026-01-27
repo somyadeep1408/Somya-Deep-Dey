@@ -177,7 +177,7 @@ body {
 
 /* --- IMAGE LOGO STYLES --- */
 .nav-logo-img {
-    height: 50px;       /* Sets a fixed height to fit the navbar */
+    height: 02px;       /* Sets a fixed height to fit the navbar */
     width: auto;        /* Keeps the aspect ratio (doesn't stretch) */
     display: block;     /* Removes extra space below the image */
     object-fit: contain;
