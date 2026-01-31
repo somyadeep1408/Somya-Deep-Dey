@@ -175,18 +175,107 @@ body {
     opacity: 1;
 }
 
-/* --- IMAGE LOGO STYLES --- */
-.nav-logo-img {
-    height: 02px;       /* Sets a fixed height to fit the navbar */
-    width: auto;        /* Keeps the aspect ratio (doesn't stretch) */
-    display: block;     /* Removes extra space below the image */
-    object-fit: contain;
-    border-radius: 5px; /* Optional: gives the corners a slight curve */
-}
+/* =========================================
+   MOBILE RESPONSIVENESS FIXES
+   (Paste at the bottom of style.css)
+   ========================================= */
 
-/* Update the container to align properly */
-.logo {
-    display: flex;
-    align-items: center;
-    padding: 0;
+@media (max-width: 768px) {
+
+    /* --- 1. GENERAL LAYOUT --- */
+    body {
+        overflow-x: hidden; /* Stops side-scrolling */
+    }
+
+    .container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    /* --- 2. NAVIGATION BAR --- */
+    nav {
+        flex-direction: column; /* Stack Logo on top of links */
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap; /* Allow links to wrap to next line */
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .nav-links a {
+        margin-left: 0; /* Remove desktop spacing */
+        font-size: 0.9rem;
+        background: rgba(255,255,255,0.05); /* Add subtle button look */
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    /* --- 3. JOURNEY / INDEX PAGE --- */
+    .intro-header h1 {
+        font-size: 2.5rem; /* Smaller title */
+    }
+
+    .milestone {
+        width: 100% !important; /* Full width text */
+        margin: 0 0 50px 0 !important;
+        text-align: left !important; /* Align everything left for readability */
+        padding: 20px !important;
+        border-left: 2px solid var(--primary); /* Add a line since SVG is hidden */
+    }
+    
+    /* Force logos to top-left of the card */
+    .org-logo {
+        position: relative !important;
+        top: auto; right: auto; left: auto;
+        margin: 0 0 15px 0 !important;
+        display: block;
+    }
+    
+    /* Hide the complex curved line on mobile */
+    .svg-container {
+        display: none;
+    }
+
+    /* --- 4. CONTACT PAGE FIXES (Crucial) --- */
+    .contact-container {
+        flex-direction: column; /* Stack cards vertically */
+        height: auto; /* Allow scrolling */
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+
+    .holo-card {
+        width: 100%; /* Fit screen width */
+        max-width: 100%;
+        margin-bottom: 30px;
+        transform: none !important; /* Disable 3D tilt on mobile */
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr; /* Stack buttons */
+    }
+
+    .btn-full {
+        grid-column: auto;
+    }
+
+    /* Hide the spinning rings on mobile as they block text */
+    .orbit-system {
+        opacity: 0.3; 
+        width: 100%;
+    }
+
+    /* --- 5. PROJECTS / VIDEOS --- */
+    .featured-pane {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
 }
