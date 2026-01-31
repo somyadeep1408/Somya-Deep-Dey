@@ -176,106 +176,105 @@ body {
 }
 
 /* =========================================
-   MOBILE RESPONSIVENESS FIXES
-   (Paste at the bottom of style.css)
+   MOBILE RESPONSIVENESS (WITH ANIMATIONS)
+   Paste at the bottom of style.css
    ========================================= */
 
 @media (max-width: 768px) {
 
-    /* --- 1. GENERAL LAYOUT --- */
+    /* 1. KEEP ANIMATIONS ALIVE */
     body {
-        overflow-x: hidden; /* Stops side-scrolling */
+        overflow-x: hidden; /* Prevents side-scrolling */
     }
 
-    .container {
-        padding: 20px;
+    /* Enable the Journey Line, but make it thinner */
+    .svg-container {
+        display: block !important; 
         width: 100%;
     }
 
-    /* --- 2. NAVIGATION BAR --- */
-    nav {
-        flex-direction: column; /* Stack Logo on top of links */
-        padding: 15px;
-        gap: 15px;
+    #journey-path {
+        stroke-width: 3; /* Thinner line for mobile */
     }
 
-    .nav-links {
-        display: flex;
-        flex-wrap: wrap; /* Allow links to wrap to next line */
-        justify-content: center;
-        gap: 15px;
+    /* 2. RE-ENABLE 3D CARDS (Subtle Mode) */
+    .holo-card, .gallery-item, .featured-pane {
+        width: 100% !important;
+        margin-bottom: 30px;
+        /* We allow transform, but reset rotation to avoid text blurring */
+        transform: perspective(1000px) rotateX(0deg) !important;
+        transition: transform 0.3s ease, opacity 0.5s ease;
+        opacity: 1 !important; /* Ensure they are visible */
     }
 
-    .nav-links a {
-        margin-left: 0; /* Remove desktop spacing */
-        font-size: 0.9rem;
-        background: rgba(255,255,255,0.05); /* Add subtle button look */
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    /* --- 3. JOURNEY / INDEX PAGE --- */
-    .intro-header h1 {
-        font-size: 2.5rem; /* Smaller title */
+    /* 3. LAYOUT FIXES */
+    .contact-container {
+        flex-direction: column;
+        padding-top: 80px;
+        height: auto;
     }
 
     .milestone {
-        width: 100% !important; /* Full width text */
-        margin: 0 0 50px 0 !important;
-        text-align: left !important; /* Align everything left for readability */
+        width: 90% !important;
+        margin: 0 auto 80px auto !important; /* Center the text blocks */
+        text-align: center !important;
         padding: 20px !important;
-        border-left: 2px solid var(--primary); /* Add a line since SVG is hidden */
+        background: rgba(15, 23, 42, 0.8); /* Dark background to read text over line */
+        backdrop-filter: blur(5px);
+        border-radius: 15px;
+        border: 1px solid rgba(255,255,255,0.1);
     }
-    
-    /* Force logos to top-left of the card */
+
+    /* Center the logos */
     .org-logo {
         position: relative !important;
-        top: auto; right: auto; left: auto;
-        margin: 0 0 15px 0 !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 0 auto 20px auto !important;
         display: block;
     }
-    
-    /* Hide the complex curved line on mobile */
-    .svg-container {
-        display: none;
-    }
 
-    /* --- 4. CONTACT PAGE FIXES (Crucial) --- */
-    .contact-container {
-        flex-direction: column; /* Stack cards vertically */
-        height: auto; /* Allow scrolling */
-        padding-top: 100px;
-        padding-bottom: 50px;
-    }
-
-    .holo-card {
-        width: 100%; /* Fit screen width */
-        max-width: 100%;
-        margin-bottom: 30px;
-        transform: none !important; /* Disable 3D tilt on mobile */
-    }
-
-    .action-grid {
-        grid-template-columns: 1fr; /* Stack buttons */
-    }
-
-    .btn-full {
-        grid-column: auto;
-    }
-
-    /* Hide the spinning rings on mobile as they block text */
+    /* 4. ORBIT SYSTEM (Background Rings) */
     .orbit-system {
-        opacity: 0.3; 
-        width: 100%;
+        width: 100vw;
+        height: 100vw;
+        opacity: 0.4; /* Dim it so text is readable */
     }
+}
 
-    /* --- 5. PROJECTS / VIDEOS --- */
-    .featured-pane {
-        width: 100%;
-        margin-bottom: 40px;
+/* --- PROFILE PICTURE HEADER STYLES --- */
+
+.header-profile-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px; /* Space between photo and name */
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Wraps nicely on small mobile screens */
+}
+
+.profile-pic {
+    width: 140px;      /* Size of the circle */
+    height: 140px;
+    border-radius: 50%; /* Makes it a perfect circle */
+    object-fit: cover;  /* Prevents the image from looking squashed */
+    border: 3px solid var(--accent); /* Cyan border */
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.4); /* Cyan Glow effect */
+    transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+    transform: scale(1.05) rotate(5deg); /* Subtle tilt animation on hover */
+}
+
+/* Mobile Tweak: Stack them on very small phones */
+@media (max-width: 480px) {
+    .header-profile-group {
+        flex-direction: column;
+        gap: 10px;
     }
-    
-    .page-title {
-        font-size: 2rem;
+    .profile-pic {
+        width: 120px;
+        height: 120px;
     }
 }
