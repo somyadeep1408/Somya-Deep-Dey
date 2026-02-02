@@ -9,11 +9,8 @@
     <style>
         /* --- JOURNEY SPECIFIC STYLES --- */
         
-        body {
-            background-color: #0f172a; /* Dark background */
-            color: white;
-            overflow-x: hidden;
-        }
+        /* 1. REMOVED HARDCODED BODY COLOR to allow Theme Switcher to work */
+        /* Body style is now handled in style.css */
 
         /* Hero Text at the top */
         .intro-header {
@@ -24,12 +21,22 @@
         }
         
         .intro-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            font-size: 4rem;
+            background: linear-gradient(to right, var(--text-color), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255,255,255,0.1); /* Added subtle glow */
         }
+
+        /* Typewriter Effect Cursor */
+        .typing-text {
+            border-right: 3px solid var(--accent);
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink { 50% { border-color: transparent; } }
 
         .journey-container {
             position: relative;
@@ -45,7 +52,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            height: 100%; /* Spans the whole height */
+            height: 100%;
             z-index: 1;
             pointer-events: none;
         }
@@ -55,12 +62,13 @@
             stroke: var(--primary);
             stroke-width: 4;
             stroke-linecap: round;
-            filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.5));
+            /* Enhanced Neon Glow */
+            filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.8));
         }
 
         #tracer {
             fill: var(--accent);
-            filter: drop-shadow(0 0 15px var(--accent));
+            filter: drop-shadow(0 0 20px var(--accent));
         }
 
         /* Content Nodes */
@@ -68,7 +76,7 @@
             position: relative;
             z-index: 2;
             width: 45%;
-            margin-bottom: 300px; /* Space between stops */
+            margin-bottom: 300px;
             opacity: 0;
             transform: translateY(50px);
             transition: all 0.8s ease;
@@ -83,7 +91,7 @@
         }
 
         .milestone h2 { font-size: 2.2rem; color: var(--accent); margin-bottom: 5px; }
-        .milestone h3 { font-size: 1.3rem; color: white; margin-bottom: 15px; font-weight: 400; }
+        .milestone h3 { font-size: 1.3rem; color: var(--text-color); margin-bottom: 15px; font-weight: 400; }
         .milestone p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; }
         
         .year-badge {
@@ -96,6 +104,7 @@
             color: var(--primary);
             font-weight: bold;
             font-size: 0.9rem;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.2); /* Added Badge Glow */
         }
 
         /* LOGO STYLES */
@@ -110,22 +119,13 @@
             top: 0;
             box-shadow: 0 0 20px rgba(255,255,255,0.1);
             transition: transform 0.3s;
+            border: 2px solid var(--border-color);
         }
 
         .org-logo:hover { transform: scale(1.1) rotate(5deg); }
 
-        /* Positioning logos based on side */
-        .milestone:nth-child(odd) .org-logo { 
-            right: 100%; 
-            margin-right: -40px; /* Centers logo on the line roughly */
-            left: auto;
-        }
-        
-        .milestone:nth-child(even) .org-logo { 
-            left: 100%; 
-            margin-left: -40px;
-            right: auto;
-        }
+        .milestone:nth-child(odd) .org-logo { right: 100%; margin-right: -40px; left: auto; }
+        .milestone:nth-child(even) .org-logo { left: 100%; margin-left: -40px; right: auto; }
 
         /* Marker dots */
         .marker {
@@ -144,21 +144,41 @@
         /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
             .milestone { width: 90%; margin: 0 auto 150px auto !important; text-align: center !important; padding: 0 !important; }
-            .svg-container { display: none; } /* Hide complicated line on mobile */
+            /* Note: We handle SVG visibility via JS now */
             .org-logo { position: relative; right: auto; left: auto; margin: 0 auto 20px auto; display: block; }
+        }
+
+        /* Background Canvas */
+        #chem-textile-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            /* Uses variable so it changes with theme */
+            background: var(--bg-color); 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: background-color 0.3s ease;
         }
     </style>
 </head>
 <body>
 
+    <canvas id="chem-textile-bg"></canvas>
+
     <nav>
         <div class="logo">SDD.</div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
+            <a href="index.html"class="active">Home</a>
             <a href="projects.html">Research & Projects</a>
             <a href="experience.html">Experience & Skills</a>
             <a href="blog1.html">Blogs</a>
             <a href="contact.html">Contact me</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
@@ -166,11 +186,15 @@
         
         <div class="header-profile-group">
             <img src="images/id pic.jpg" alt="Somya Deep Dey" class="profile-pic">
-            
             <h1>Somya Deep Dey</h1>
         </div>
 
-        <p style="color: #94a3b8; font-size: 1.2rem;">From Chemical Engineering to Process Systems Innovation</p>
+        <p style="color: #94a3b8; font-size: 1.2rem;" class="typing-text">From Chemical Engineering to Process Systems Innovation</p>
+        
+        <p style="max-width: 800px; margin: 20px auto; opacity: 0.8;"> 
+            Catalysis and Reaction Engineering • Process Systems Engineering • Energy Technologies •
+            Thermal Energy Storage • Green Technology • Separation Technologies • CFD Simulation
+        </p>
         
         <div style="margin-top: 20px;">
             <i class="fas fa-chevron-down" style="animation: bounce 2s infinite"></i>
@@ -197,7 +221,7 @@
                 Specialized in Textile Chemistry.
             </p>
         </div>
-        
+
         <div class="milestone">
             <img src="images/uptti.jpeg" alt="UPTTI Logo" class="org-logo">
             <span class="year-badge">2020 - 2023</span>
@@ -250,27 +274,21 @@
             // 1. DYNAMIC PATH CALCULATION
             function updatePath() {
                 const width = svgContainer.offsetWidth;
-                const height = 1600; // Matches viewBox height
+                const height = 1600; 
                 
-                // If Mobile (width < 768), draw a STRAIGHT line down the center
                 if (window.innerWidth < 768) {
-                    // M(move to top center) L(line to bottom center)
-                    const center = 200; // SVG viewBox width is 400, so 200 is center
+                    const center = 200; 
                     path.setAttribute('d', `M ${center},0 L ${center},${height}`);
                 } else {
-                    // If Desktop, keep the cool curves
                     path.setAttribute('d', "M 200,0 C 200,200 350,200 350,450 C 350,700 50,700 50,950 C 50,1200 200,1200 200,1400");
                 }
             }
 
-            // Run once on load and whenever screen resizes
             updatePath();
             window.addEventListener('resize', updatePath);
 
             // 2. SCROLL ANIMATION
             const pathLength = path.getTotalLength();
-            
-            // Hide line initially
             path.style.strokeDasharray = pathLength;
             path.style.strokeDashoffset = pathLength;
 
@@ -279,21 +297,16 @@
                 const docHeight = document.body.scrollHeight - window.innerHeight;
                 const scrollPercent = scrollTop / docHeight;
 
-                // Draw Line
-                // Multiply by 1.2 to make it finish slightly before the very bottom
                 const drawLength = pathLength * scrollPercent * 1.2; 
                 const offset = Math.max(pathLength - drawLength, 0);
                 path.style.strokeDashoffset = offset;
 
-                // Move Tracer Dot
                 const pt = path.getPointAtLength(pathLength - offset);
                 tracer.setAttribute("cx", pt.x);
                 tracer.setAttribute("cy", pt.y);
 
-                // Reveal Text Blocks (Milestones)
                 milestones.forEach(m => {
                     const rect = m.getBoundingClientRect();
-                    // Trigger when element is 85% down the viewport (better for mobile)
                     if (rect.top < window.innerHeight * 0.85) {
                         m.classList.add('active');
                     }
@@ -303,7 +316,7 @@
     </script>
     
     <script src="script.js"></script>
-    
+        
     <style>
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
@@ -311,6 +324,8 @@
             60% {transform: translateY(-5px);}
         }
     </style>
+    
+    <script src="theme.js"></script>
     
     <footer>
         <p>© 2026 Somya Deep Dey</p>
