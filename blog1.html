@@ -8,17 +8,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* --- BLOG SPECIFIC STYLES --- */
-        body {
-            background-color: #0f172a;
-        }
+        
+        /* 1. Background is now handled by style.css variables */
 
         .blog-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
-            color: #e2e8f0;
+            color: var(--text-color); /* Adaptive text color */
             line-height: 1.8;
             font-size: 1.1rem;
+            position: relative;
+            z-index: 2; /* Sits above the canvas background */
         }
 
         /* Hero Typography */
@@ -26,11 +27,12 @@
             text-align: center;
             padding: 100px 0 60px;
             position: relative;
+            z-index: 2;
         }
 
         .blog-hero h1 {
             font-size: 4rem;
-            background: linear-gradient(to right, #fff, var(--accent));
+            background: linear-gradient(to right, var(--text-color), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
@@ -40,8 +42,8 @@
 
         .blog-hero p {
             font-size: 1.5rem;
-            color: #94a3b8;
-            opacity: 0;
+            color: var(--text-color);
+            opacity: 0.8;
             animation: fadeUp 1s ease 0.3s forwards;
         }
 
@@ -49,7 +51,8 @@
         .art-container {
             width: 100%;
             height: 300px;
-            background: rgba(255,255,255,0.02);
+            /* Adaptive Background for the box */
+            background: var(--card-bg);
             border-radius: 20px;
             margin: 40px 0;
             position: relative;
@@ -57,7 +60,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
         }
 
         /* Image 1: The Chaos (Storm) */
@@ -67,14 +71,21 @@
         }
         .chaos-shape {
             position: absolute;
-            background: #475569;
+            background: #475569; /* Dark clouds by default */
             border-radius: 50%;
             filter: blur(20px);
             animation: storm 3s infinite alternate;
+            transition: background 0.3s;
         }
-        .cs-1 { width: 80px; height: 80px; top: 0; left: 20px; background: #334155; }
-        .cs-2 { width: 60px; height: 60px; top: 30px; left: -10px; background: #64748b; animation-delay: 0.5s; }
-        .cs-3 { width: 70px; height: 70px; top: 20px; left: 50px; background: #1e293b; animation-delay: 1s; }
+        
+        /* LIGHT MODE OVERRIDE FOR CLOUDS */
+        html[data-theme="light"] .chaos-shape {
+            background: #cbd5e1; /* Light gray clouds in light mode */
+        }
+
+        .cs-1 { width: 80px; height: 80px; top: 0; left: 20px; }
+        .cs-2 { width: 60px; height: 60px; top: 30px; left: -10px; animation-delay: 0.5s; }
+        .cs-3 { width: 70px; height: 70px; top: 20px; left: 50px; animation-delay: 1s; }
         
         @keyframes storm {
             0% { transform: translate(0, 0) scale(1); }
@@ -110,10 +121,15 @@
 
         .content-block h2 {
             font-size: 2.5rem;
-            color: white;
+            color: var(--text-color);
             margin-bottom: 20px;
             border-left: 5px solid var(--accent);
             padding-left: 20px;
+        }
+        
+        .content-block p {
+            color: var(--text-color);
+            opacity: 0.9;
         }
 
         .highlight {
@@ -123,24 +139,26 @@
 
         /* Positive Quote Generator */
         .quote-box {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(37, 99, 235, 0.1));
+            background: var(--card-bg); /* Adaptive */
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             margin-top: 50px;
             border: 1px solid var(--accent);
+            box-shadow: var(--shadow);
         }
         
         #daily-quote {
             font-size: 1.5rem;
             font-style: italic;
             margin-bottom: 20px;
-            min-height: 80px; /* Prevents jump when text changes */
+            min-height: 80px; 
+            color: var(--text-color);
         }
 
         .glow-btn {
-            background: white;
-            color: var(--primary);
+            background: var(--primary);
+            color: white;
             border: none;
             padding: 12px 30px;
             font-size: 1rem;
@@ -148,17 +166,34 @@
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
         }
         .glow-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255,255,255,0.6);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.6);
+            background: var(--accent);
         }
 
         @keyframes fadeUp { to { opacity: 1; } }
+
+        /* Background Canvas */
+        #chem-textile-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-color); 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: background-color 0.3s ease;
+        }
     </style>
 </head>
 <body>
+
+    <canvas id="chem-textile-bg"></canvas>
 
     <nav>
         <div class="logo">SDD.</div>
@@ -166,8 +201,11 @@
             <a href="index.html">Home</a>
             <a href="projects.html">Research & Projects</a>
             <a href="experience.html">Experience & Skills</a>
-            <a href="blog1.html">Blogs</a>
+            <a href="blog1.html"class="active">Blogs</a>
             <a href="contact.html">Contact me</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
@@ -211,7 +249,7 @@
         </div>
 
         <div class="content-block">
-            <div class="art-container" style="background: rgba(253, 224, 71, 0.05);">
+            <div class="art-container">
                 <div class="calm-art"></div>
             </div>
 
@@ -238,6 +276,65 @@
     </footer>
 
     <script>
+        const canvas = document.getElementById('chem-textile-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Hexagon {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 20 + 10;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < -50) {
+                    this.y = height + 50;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    ctx.lineTo(
+                        this.x + this.size * Math.cos(i * 2 * Math.PI / 6),
+                        this.y + this.size * Math.sin(i * 2 * Math.PI / 6)
+                    );
+                }
+                ctx.closePath();
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const color = isLight ? `rgba(37, 99, 235, ${this.opacity})` : `rgba(6, 182, 212, ${this.opacity})`;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < 20; i++) particles.push(new Hexagon());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        init();
+        animate();
+    </script>
+
+    <script>
         // Scroll Reveal Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -261,18 +358,18 @@
 
         function newQuote() {
             const quoteText = document.getElementById('daily-quote');
-            // Fade out
             quoteText.style.opacity = 0;
             
             setTimeout(() => {
-                // Change text
                 const random = Math.floor(Math.random() * quotes.length);
                 quoteText.innerText = quotes[random];
-                // Fade in
                 quoteText.style.opacity = 1;
             }, 300);
         }
     </script>
+    
+    <script src="script.js"></script>
+    <script src="theme.js"></script>
 
 </body>
 </html>

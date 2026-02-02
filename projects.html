@@ -2,31 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Somya Deep Dey</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* --- FEATURED LARGE PANE STYLES --- */
+        /* --- PROJECTS PAGE STYLES --- */
         
-        /* The container for the large video projects */
+        /* Background Canvas */
+        #chem-textile-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-color); 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Video Section */
         .featured-section {
             display: flex;
             flex-direction: column;
-            gap: 60px; /* Space between the two large projects */
+            gap: 60px;
             margin-bottom: 80px;
         }
 
         .featured-pane {
-            background: white;
+            background: var(--card-bg); /* Adaptive */
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(0,0,0,0.05);
-            /* This ensures it uses the full width of the container */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
             width: 100%; 
         }
 
-        /* Large Video Header */
+        /* Video Container */
         .large-video-container {
             width: 100%;
             background: #000;
@@ -36,22 +55,22 @@
 
         .large-video {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ensures the whole video is visible */
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: contain;
         }
 
-        .pane-content {
-            padding: 30px;
-        }
+        .pane-content { padding: 30px; }
 
         .pane-content h2 {
             font-size: 2rem;
-            color: var(--secondary);
+            background: linear-gradient(to right, var(--text-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
+        
+        .pane-content p { color: var(--text-color); opacity: 0.9; }
 
         .pane-meta {
             color: var(--primary);
@@ -67,69 +86,114 @@
             margin-top: 20px;
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            border: 1px solid var(--primary);
         }
     </style>
 </head>
 <body>
 
+    <canvas id="chem-textile-bg"></canvas>
+
     <nav>
         <div class="logo">SDD.</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="projects.html">Research & Projects</a>
+            <a href="projects.html"class="active">Research & Projects</a>
             <a href="experience.html">Experience & Skills</a>
             <a href="blog1.html">Blogs</a>
             <a href="contact.html">Contact me</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
+
     <div class="container">
         
-        <div style="text-align: center; margin: 80px 0 40px;">
-            <h2 class="page-title" style="font-size: 2rem; border-bottom: 3px solid var(--accent);">Other Research</h2>
+      <div style="text-align: center; margin-bottom: 60px;">
+            <h2 class="page-title">Journal Publications</h2>
+            <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8;">Peer-Reviewed Research & Articles</p>
+        </div>
+
+        <div class="card scroll-3d-item" style="max-width: 900px; margin: 0 auto;">
+            
+            <img src="images/publication.png" alt="Powder Technology Publication" style="width: 100%; height: auto; border-bottom: 1px solid var(--border-color);">
+            
+            <div class="card-body" style="padding: 30px;">
+                <span class="pane-meta" style="color: var(--accent); margin-bottom: 10px;">
+                    Powder Technology | Volume 464, 2025
+                </span>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px;">
+                    Study of photothermal conversion characteristics of metal oxide nanoparticles-based phase change materials
+                </h3>
+                <p style="font-style: italic; color: var(--text-color); opacity: 0.9; margin-bottom: 20px;">
+                    <strong>Authors:</strong> Ankur A. Bhansali, <strong>Somya Deep Dey</strong>, Krunal M. Gangawane
+                </p>
+                <p style="color: var(--text-color); opacity: 0.8;">
+                    Department of Chemical Engineering, Indian Institute of Technology, Jodhpur, Rajasthan, India
+                </p>
+                
+                </div>
+            
+        </div>
+        
+        <div style="text-align: center; margin: 80px 0 60px;">
+            <h1 class="page-title">Research Portfolio</h1>
+            <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8;">Innovations in Energy, Materials, and Simulation</p>
         </div>
 
         <div class="project-grid">
             
-            <div class="card">
+            <div class="card scroll-3d-item">
                 <div class="card-header" style="background: linear-gradient(135deg, #4f46e5, #312e81);">
                     <i class="fas fa-plane"></i>
                 </div>
                 <div class="card-body">
                     <h3>Aerospace Composites</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">DRDO Internship</p>
+                    <p style="color: var(--accent); font-size: 0.9rem; margin-bottom: 10px;">DRDO Internship</p>
                     <p>Characterized PTFE-coated Kevlar and glass fabrics. Achieved 3x strength improvement through systematic experimental design.</p>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card scroll-3d-item">
                 <div class="card-header" style="background: linear-gradient(135deg, #f59e0b, #b45309);">
                     <i class="fas fa-sun"></i> 
                 </div>
                 <div class="card-body">
                     <h3>Thermal Energy Storage</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis</p>
+                    <p style="color: var(--accent); font-size: 0.9rem; margin-bottom: 10px;">M.Tech Thesis</p>
                     <p>Investigated inorganic phase change materials (iPCM) enhanced with metal oxide nanoparticles. Conducted photothermal conversion experiments.</p>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card scroll-3d-item">
                 <div class="card-header" style="background: linear-gradient(135deg, #d946ef, #86198f);">
                     <i class="fas fa-microscope"></i>
                 </div>
                 <div class="card-body">
                     <h3>Nanocrystal Synthesis</h3>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">B.Tech Project</p>
+                    <p style="color: var(--accent); font-size: 0.9rem; margin-bottom: 10px;">B.Tech Project</p>
                     <p>Produced CNCs via acid hydrolysis from spinning waste cotton. Proposed bi-component filaments for heavy metal wastewater treatment.</p>
                 </div>
             </div>
 
         </div>
         
+        <div style="margin: 100px 0;"></div>
         
         <div style="text-align: center; margin-bottom: 60px;">
-            <h1 class="page-title">Graphical Abstracts</h1>
-            <p style="font-size: 1.1rem; color: #64748b;">Visuals of Research Interest</p>
+            <h2 class="page-title">Graphical Abstracts</h2>
+            <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8;">Visualizing Complex Processes</p>
         </div>
 
         <div class="featured-section">
@@ -156,12 +220,7 @@
                     </div>
                 </div>
             </div>
-        
-        <div style="text-align: center; margin-bottom: 60px;">
-            <h2 class="page-title">Featured Simulations</h1>
-            <p style="font-size: 1.1rem; color: #64748b;">Showcasing computational modeling and experimental video analysis</p>
-        </div>
-        
+            
             <div class="featured-pane scroll-3d-item">
                 <div class="large-video-container">
                     <video controls loop class="large-video">
@@ -194,7 +253,7 @@
                 </div>
                 <div class="pane-content">
                     <span class="pane-meta">CFD Simulation</span>
-                    <h2>Filttration Process - Wastewater Treatment</h2>
+                    <h2>Filtration Process - Wastewater Treatment</h2>
                     <p>
                         Simulated a filter by using simpleFoam solver for visualization of fluid flow through a strainer for the optimization process in wastewater treatment applications.
                     </p>
@@ -207,16 +266,67 @@
             </div>
 
         </div>
+        
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 class="page-title">Conference Presentations</h2>
+            <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8;">Posters & Oral Presentations</p>
+        </div>
 
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
 
+            <div class="card scroll-3d-item poster-trigger">
+                <div style="overflow: hidden; cursor: pointer;">
+                    <img src="images/ICTAC.png" alt="Conference Poster 1" style="width: 100%; height: auto; transition: transform 0.5s;">
+                </div>
+                <div class="card-body">
+                    <span class="pane-meta">ICTAC 2024</span>
+                    <h3>iPCM Composite Synthesis & Characterization</h3>
+                    <p style="font-size: 0.9rem;">Presented at Indian Institute of Technology Madras.</p>
+                </div>
+            </div>
 
+            <div class="card scroll-3d-item poster-trigger">
+                <div style="overflow: hidden; cursor: pointer;">
+                    <img src="images/Industry day.png" alt="Conference Poster 2" style="width: 100%; height: auto; transition: transform 0.5s;">
+                </div>
+                <div class="card-body">
+                    <span class="pane-meta">Industry Day 2024</span>
+                    <h3>Application of iPCM composite in Solar Cooker</h3>
+                    <p style="font-size: 0.9rem;">Presented at Indian Institute of Technology Jodhpur.</p>
+                </div>
+            </div>
+            
+            <div class="card scroll-3d-item poster-trigger">
+                <div style="overflow: hidden; cursor: pointer;">
+                    <img src="images/Chem-e-sorption.png" alt="Conference Poster 2" style="width: 100%; height: auto; transition: transform 0.5s;">
+                </div>
+                <div class="card-body">
+                    <span class="pane-meta">Chem-e-sorption 2023</span>
+                    <h3>Introduction to iPCM for thermal Energy Storage</h3>
+                    <p style="font-size: 0.9rem;">Presented at Indian Institute of Technology Jodhpur.</p>
+                </div>
+            </div>
+            
+            <div class="card scroll-3d-item poster-trigger">
+                <div style="overflow: hidden; cursor: pointer;">
+                    <img src="images/Thrive poster_page-0001.jpg" alt="Conference Poster 2" style="width: 100%; height: auto; transition: transform 0.5s;">
+                </div>
+                <div class="card-body">
+                    <span class="pane-meta">THRIVE 2025</span>
+                    <h3>Solar cooker by using discarded tyres for BoP communities</h3>
+                    <p style="font-size: 0.9rem;">Presented at Indian Institute of Technology Jodhpur.</p>
+                </div>
+            </div>
+            
+            </div>
     </div>
 
     <footer>
         <p>© 2026 Somya Deep Dey</p>
     </footer>
-
+  
     <script src="script.js"></script>
+    <script src="theme.js"></script>
 
 </body>
 </html>

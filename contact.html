@@ -8,44 +8,42 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* --- CONTACT PAGE SPECIFIC STYLES --- */
-        body {
-            background-color: #0b1120;
-            overflow-x: hidden; /* Allow vertical scroll if needed on mobile */
-        }
-
+        
+        /* 1. REMOVED HARDCODED BODY COLOR (Handled by style.css now) */
+        
         .contact-container {
-            min-height: 90vh; /* changed from height to min-height for wrapping */
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             perspective: 1500px;
             padding: 50px 20px;
-            gap: 40px; /* Space between the two cards */
-            flex-wrap: wrap; /* Allows cards to stack on tablets/mobile */
+            gap: 40px;
+            flex-wrap: wrap;
+            /* Ensure content sits above background canvas */
+            z-index: 2;
         }
 
         /* --- THE HOLOGRAPHIC CARD --- */
         .holo-card {
-            width: 450px; /* Slightly narrower to fit two side-by-side */
+            width: 450px;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.03);
+            /* Adaptive Background */
+            background: var(--card-bg); 
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             border-radius: 30px;
             text-align: center;
-            color: white;
-            box-shadow: 
-                0 0 50px rgba(37, 99, 235, 0.2),
-                inset 0 0 20px rgba(37, 99, 235, 0.1);
+            /* Adaptive Text Color */
+            color: var(--text-color); 
+            box-shadow: var(--shadow);
             transform-style: preserve-3d;
-            /* Removed infinite animation so they don't float out of sync */
             transition: transform 0.3s ease; 
             position: relative;
             z-index: 10;
         }
 
-        /* Hover effect instead of constant floating for better usability */
         .holo-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 0 60px rgba(37, 99, 235, 0.4);
@@ -54,9 +52,15 @@
         .holo-card h1 {
             font-size: 2.2rem;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, var(--accent));
+            background: linear-gradient(to right, var(--text-color), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        
+        /* Description text fix */
+        .holo-card p {
+            color: var(--text-color);
+            opacity: 0.8;
         }
 
         /* --- FORM STYLES --- */
@@ -64,13 +68,20 @@
             width: 100%;
             padding: 15px;
             margin-bottom: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05); /* Stays subtle */
+            border: 1px solid var(--border-color);
             border-radius: 10px;
-            color: white;
+            /* Input text color adapts to theme */
+            color: var(--text-color); 
             font-size: 1rem;
             outline: none;
             transition: 0.3s;
+        }
+        
+        /* Ensure input text is visible in light mode */
+        html[data-theme="light"] .glass-input {
+            background: rgba(0,0,0,0.05);
+            color: #000;
         }
 
         .glass-input:focus {
@@ -85,16 +96,17 @@
             width: 100%;
             padding: 15px;
             background: var(--accent);
-            color: #000;
+            color: #fff;
             font-weight: bold;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             font-size: 1.1rem;
             transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .submit-btn:hover { background: white; box-shadow: 0 0 20px var(--accent); }
+        .submit-btn:hover { background: var(--primary); transform: scale(1.02); }
 
         /* --- ACTION BUTTONS (Right Card) --- */
         .action-grid {
@@ -105,11 +117,11 @@
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 12px;
             border-radius: 15px;
-            color: white;
+            color: var(--text-color);
             text-decoration: none;
             transition: all 0.3s;
             display: flex;
@@ -122,11 +134,12 @@
         .action-btn:hover {
             background: var(--primary);
             border-color: var(--primary);
+            color: white;
             transform: translateY(-5px);
         }
         
         .btn-full { grid-column: span 2; background: rgba(255,255,255,0.1); }
-        .btn-full:hover { background: white; color: black; }
+        html[data-theme="light"] .btn-full { background: rgba(0,0,0,0.05); }
 
         .hidden { display: none; }
         
@@ -134,35 +147,54 @@
         .orbit-system {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%; height: 90%; /* Scale to fit container */
+            width: 80vw;
+            height: 80vw;
+            max-width: 800px;
+            max-height: 800px;
             pointer-events: none; z-index: 1;
+            opacity: 0.6;
         }
         .orbit-ring {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
             border-radius: 50%;
         }
         .ring-1 { width: 800px; height: 800px; animation: spin 20s linear infinite; }
         .ring-2 { width: 600px; height: 600px; animation: spin 15s linear infinite reverse; }
         @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        
         .planet {
             position: absolute; top: 50%; left: -10px;
-            width: 30px; height: 30px; background: #0f172a;
+            width: 30px; height: 30px; 
+            background: var(--bg-color); /* Matches theme background */
             border: 1px solid var(--accent); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: var(--accent); box-shadow: 0 0 15px var(--accent);
         }
 
-        .bg-glow {
-            position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 0; filter: blur(50px);
+        /* Background Canvas */
+        #chem-textile-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-color); 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: background-color 0.3s ease;
         }
+        
+        /* Social Icons Link Color */
+        .social-links a { color: var(--text-color) !important; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent) !important; }
     </style>
 </head>
 <body>
+
+    <canvas id="chem-textile-bg"></canvas>
 
     <nav>
         <div class="logo">SDD.</div>
@@ -171,12 +203,14 @@
             <a href="projects.html">Research & Projects</a>
             <a href="experience.html">Experience & Skills</a>
             <a href="blog1.html">Blogs</a>
-            <a href="contact.html">Contact me</a>
+            <a href="contact.html"class="active">Contact me</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
     <div class="contact-container">
-        <div class="bg-glow"></div>
         
         <div class="orbit-system">
             <div class="orbit-ring ring-1"><div class="planet"><i class="fas fa-atom"></i></div></div>
@@ -185,7 +219,7 @@
 
         <div class="holo-card scroll-3d-item">
             <h1>Get In Touch</h1>
-            <p style="color: #94a3b8; margin-bottom: 20px;">Send a direct inquiry to my dashboard.</p>
+            <p>Send a direct inquiry to my dashboard.</p>
             
             <form name="submit-to-google-sheet">
                 <input type="text" name="name" placeholder="Your Name" class="glass-input" required>
@@ -203,8 +237,10 @@
         </div>
 
         <div class="holo-card scroll-3d-item">
+            <img src="images/logo.jpg" style="width: 80px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 20px;">
+            
             <h1>Let's Collaborate</h1>
-            <p style="color: #94a3b8; font-size: 1.1rem;">Ready to innovate in Process Systems & Energy Technology.</p>
+            <p>Ready to innovate in Process Systems & Energy Technology.</p>
             
             <div class="action-grid">
                 <a href="projects.html" class="action-btn">
@@ -212,7 +248,7 @@
                 </a>
 
                 <a href="gallery.html" class="action-btn">
-                    <i class="fas fa-briefcase"></i> Gallery
+                    <i class="fas fa-images"></i> Gallery
                 </a>
 
                 <a href="mailto:ananddey148@gmail.com?subject=Hello%20Somya%20Deep" class="action-btn btn-full">
@@ -220,17 +256,17 @@
                 </a>
             </div>
 
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 1.5rem;">
-                <a href="https://www.instagram.com/the_ananddey?igsh=cDV0ZGJqMWliZDJi" style="color: white; transition: 0.3s hover:color:var(--accent);">
+            <div class="social-links" style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 1.5rem;">
+                <a href="https://www.instagram.com/the_ananddey?igsh=cDV0ZGJqMWliZDJi">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://linkedin.com/in/somya-deep-dey" style="color: white; transition: 0.3s hover:color:var(--accent);">
+                <a href="https://linkedin.com/in/somya-deep-dey">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://github.com/somyadeep1408" style="color: white; transition: 0.3s hover:color:var(--accent);">
+                <a href="https://github.com/somyadeep1408">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="tel:+919259838049" style="color: white; transition: 0.3s hover:color:var(--accent);">
+                <a href="tel:+919259838049">
                     <i class="fas fa-phone"></i>
                 </a>
             </div>
@@ -242,6 +278,65 @@
         <p>© 2026 Somya Deep Dey</p>
     </footer>
     
+    <script>
+        const canvas = document.getElementById('chem-textile-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Hexagon {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 20 + 10;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < -50) {
+                    this.y = height + 50;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    ctx.lineTo(
+                        this.x + this.size * Math.cos(i * 2 * Math.PI / 6),
+                        this.y + this.size * Math.sin(i * 2 * Math.PI / 6)
+                    );
+                }
+                ctx.closePath();
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const color = isLight ? `rgba(37, 99, 235, ${this.opacity})` : `rgba(6, 182, 212, ${this.opacity})`;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < 20; i++) particles.push(new Hexagon());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        init();
+        animate();
+    </script>
+
     <script src="script.js"></script>
     
     <script>
@@ -267,6 +362,8 @@
             });
         });
     </script>
+    
+    <script src="theme.js"></script>
 
 </body>
 </html>

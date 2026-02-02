@@ -2,99 +2,279 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience | Somya Deep Dey</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Specific graphic styles for this page */
-        .skill-bar { background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
-        .skill-fill { height: 100%; background: var(--primary); width: 0; animation: fillBar 1.5s forwards; }
+        /* --- PAGE SPECIFIC STYLES --- */
+        
+        /* Background Canvas */
+        #chem-textile-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg-color); 
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hero Section */
+        .exp-hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            position: relative;
+            z-index: 2;
+        }
+        .exp-hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--text-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .exp-hero p { color: var(--text-color); opacity: 0.8; }
+
+        /* Resume Button */
+        .resume-btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .resume-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Skill Bars */
+        .skill-bar { 
+            background: var(--border-color);
+            height: 8px; 
+            border-radius: 5px; 
+            overflow: hidden; 
+            margin-top: 8px; 
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .skill-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0; 
+            border-radius: 5px;
+            animation: fillBar 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards; 
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
         @keyframes fillBar { to { width: var(--w); } }
+
+        /* Timeline Icons */
+        .timeline-icon {
+            position: absolute;
+            left: -46px; /* Adjust based on timeline padding */
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            z-index: 2;
+        }
+
+        /* Tools Badges */
+        .tool-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px 5px 5px 0;
+            transition: 0.3s;
+        }
+        .tool-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Specific tweaks for grid alignment */
+        .container {
+            position: relative;
+            z-index: 2;
+            padding-bottom: 80px;
+        }
     </style>
 </head>
 <body>
+
+    <canvas id="chem-textile-bg"></canvas>
 
     <nav>
         <div class="logo">SDD.</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="projects.html">Research & Projects</a>
-            <a href="experience.html">Experience & Skills</a>
+            <a href="experience.html"class="active">Experience & Skills</a>
             <a href="blog1.html">Blogs</a>
             <a href="contact.html">Contact me</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+            <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
+    <div class="exp-hero">
+        <h1>Professional Chronicles</h1>
+        <p>Bridging Academic Theory with Industrial Application</p>
+        
+        <a href="documents/Somya' vitae.pdf" download="Somya_Deep_Dey_Resume" class="resume-btn">
+            <i class="fas fa-file-download"></i> Vitae
+        </a>
+    </div>
+
     <div class="container">
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px;">
+            
             <div>
-                <h2 style="margin-bottom: 30px; color: var(--primary);">Professional Journey</h2>
-                <div class="timeline">
+                <h2 style="margin-bottom: 30px; color: var(--primary); border-left: 5px solid var(--primary); padding-left: 15px;">
+                    Career Path
+                </h2>
+                
+                <div class="timeline" style="margin-left: 10px;">
                     
-                    <div class="timeline-item">
+                    <div class="timeline-item scroll-3d-item">
+                        <div class="timeline-icon"><i class="fas fa-industry"></i></div>
                         <h4 style="color: var(--accent);">July 2025 – Nov 2025</h4>
                         <h3>Engineer</h3>
-                        <p><strong>EPP Composites Pvt. Ltd.</strong></p>
-                        <p>Led 10+ pilot-scale trials. Applied process simulation (DWSIM, ASPEN) and CFD for optimization.</p>
+                        <p class="meta" style="font-style: italic; color: #94a3b8;">EPP Composites Pvt. Ltd.</p>
+                        <p style="margin-top: 10px;">Led 10+ pilot-scale trials. Applied process simulation (DWSIM, ASPEN) and CFD for optimization of wastewater treatment systems.</p>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item scroll-3d-item">
+                        <div class="timeline-icon"><i class="fas fa-chalkboard-teacher"></i></div>
                         <h4 style="color: var(--accent);">July 2023 – July 2025</h4>
                         <h3>Teaching Assistant</h3>
-                        <p><strong>IIT Jodhpur</strong></p>
-                        <p>Assisted in Polymer Science and Thermodynamics. Mentored undergraduates in research.</p>
+                        <p class="meta" style="font-style: italic; color: #94a3b8;">IIT Jodhpur</p>
+                        <p style="margin-top: 10px;">Assisted in Polymer Science and Thermodynamics. Mentored undergraduates in lab research and safety protocols.</p>
                     </div>
 
-                    <div class="timeline-item">
+                    <div class="timeline-item scroll-3d-item">
+                        <div class="timeline-icon"><i class="fas fa-flask"></i></div>
                         <h4 style="color: var(--accent);">July 2022 – August 2022</h4>
                         <h3>Research Intern</h3>
-                        <p><strong>DRDO (ADRDE)</strong></p>
-                        <p>Characterized mechanical/thermal properties of aerospace fabrics.</p>
+                        <p class="meta" style="font-style: italic; color: #94a3b8;">DRDO (ADRDE)</p>
+                        <p style="margin-top: 10px;">Characterized mechanical/thermal properties of aerospace fabrics and PTFE-coated Kevlar composites.</p>
                     </div>
                 </div>
             </div>
 
             <div>
-                <h2 style="margin-bottom: 30px; color: var(--primary);">Technical Arsenal</h2>
+                <h2 style="margin-bottom: 30px; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px;">
+                    Technical Arsenal
+                </h2>
                 
-                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div class="card scroll-3d-item" style="padding: 30px; margin-bottom: 30px;">
                     
-                    <div style="margin-bottom: 20px;">
-                        <div style="display:flex; justify-content:space-between;"><span>Characterization (XRD, SEM, FTIR)</span><span>90%</span></div>
+                    <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-microscope" style="color: var(--accent);"></i> Core Competencies
+                    </h3>
+
+                    <div style="margin-bottom: 25px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                            <span>Characterization (XRD, SEM, FTIR)</span>
+                            <span style="color: var(--accent); font-weight: bold;">90%</span>
+                        </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 90%"></div></div>
                     </div>
                     
-                    <div style="margin-bottom: 20px;">
-                        <div style="display:flex; justify-content:space-between;"><span>CFD (OpenFOAM/Ansys)</span><span>75%</span></div>
+                    <div style="margin-bottom: 25px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                            <span>CFD (OpenFOAM/Ansys)</span>
+                            <span style="color: var(--accent); font-weight: bold;">75%</span>
+                        </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 75%"></div></div>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <div style="display:flex; justify-content:space-between;"><span>Process Simulation (ASPEN/DWSIM)</span><span>65%</span></div>
+                    <div style="margin-bottom: 25px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                            <span>Process Simulation (ASPEN/DWSIM)</span>
+                            <span style="color: var(--accent); font-weight: bold;">65%</span>
+                        </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 65%"></div></div>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <div style="display:flex; justify-content:space-between;"><span>MATLAB & Python</span><span>60%</span></div>
+                    <div style="margin-bottom: 10px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
+                            <span>MATLAB & Python</span>
+                            <span style="color: var(--accent); font-weight: bold;">60%</span>
+                        </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 60%"></div></div>
                     </div>
 
                 </div>
 
-                <div style="margin-top: 30px; background: var(--secondary); color: white; padding: 30px; border-radius: 20px;">
-                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
-                    <div style="margin-top: 15px;">
-                        <p><strong>M.Tech Chemical Engineering</strong></p>
-                        <p>IIT Jodhpur (CGPA: 8.04)</p>
+                <div class="card scroll-3d-item" style="padding: 25px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 15px; font-size: 1.1rem;">
+                        <i class="fas fa-laptop-code" style="color: var(--accent);"></i> Software & Tools
+                    </h3>
+                    <div>
+                        <span class="tool-badge">SolidWorks</span>
+                        <span class="tool-badge">Origin Pro</span>
+                        <span class="tool-badge">LaTeX</span>
+                        <span class="tool-badge">Linux (Ubuntu)</span>
+                        <span class="tool-badge">Power BI</span>
+                        <span class="tool-badge">Mendeley</span>
+                        <span class="tool-badge">Git</span>
                     </div>
-                    <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                        <p><strong>B.Tech Man-Made Fibre Tech</strong></p>
-                        <p>UPTTI Kanpur (CGPA: 7.69)</p>
+                </div>
+
+                <div class="card scroll-3d-item" style="padding: 30px; border-left: 5px solid var(--accent);">
+                    <h3><i class="fas fa-graduation-cap" style="color: var(--accent);"></i> Education</h3>
+                    
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p style="font-size: 1.1rem; font-weight: bold;">M.Tech Chemical Engineering</p>
+                            <span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.8rem;">2025</span>
+                        </div>
+                        <p style="color: var(--accent);">IIT Jodhpur</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">CGPA: 8.04</p>
                     </div>
-                    <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                        <p><strong>Diploma in Textile Chemistry</strong></p>
-                        <p>Government Polytechnic Hapur (73.68 %)</p>
+                    
+                    <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p style="font-size: 1.1rem; font-weight: bold;">B.Tech Man-Made Fibre Tech</p>
+                            <span style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 5px; font-size: 0.8rem;">2023</span>
+                        </div>
+                        <p style="color: var(--accent);">UPTTI Kanpur</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">CGPA: 7.69</p>
+                    </div>
+
+                    <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                        <p style="font-size: 1.1rem; font-weight: bold;">Diploma in Textile Chemistry</p>
+                        <p style="color: var(--accent);">Govt. Polytechnic Hapur</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">73.68%</p>
                     </div>
                 </div>
 
@@ -106,7 +286,67 @@
         <p>© 2026 Somya Deep Dey</p>
     </footer>
     
+    <script>
+        const canvas = document.getElementById('chem-textile-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Hexagon {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 20 + 10;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.y -= this.speedY;
+                if (this.y < -50) {
+                    this.y = height + 50;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    ctx.lineTo(
+                        this.x + this.size * Math.cos(i * 2 * Math.PI / 6),
+                        this.y + this.size * Math.sin(i * 2 * Math.PI / 6)
+                    );
+                }
+                ctx.closePath();
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const color = isLight ? `rgba(37, 99, 235, ${this.opacity})` : `rgba(6, 182, 212, ${this.opacity})`;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < 20; i++) particles.push(new Hexagon());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        init();
+        animate();
+    </script>
+
     <script src="script.js"></script>
+    <script src="theme.js"></script>
     
 </body>
 </html>
