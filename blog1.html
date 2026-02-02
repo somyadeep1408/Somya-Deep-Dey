@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life & Uncertainty | Somya Deep Dey</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- BLOG SPECIFIC STYLES --- */
+        body {
+            background-color: #0f172a;
+        }
+
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #e2e8f0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Hero Typography */
+        .blog-hero {
+            text-align: center;
+            padding: 100px 0 60px;
+            position: relative;
+        }
+
+        .blog-hero h1 {
+            font-size: 4rem;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .blog-hero p {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.3s forwards;
+        }
+
+        /* --- CSS GENERATED IMAGES (ART) --- */
+        .art-container {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Image 1: The Chaos (Storm) */
+        .chaos-art {
+            position: relative;
+            width: 100px; height: 100px;
+        }
+        .chaos-shape {
+            position: absolute;
+            background: #475569;
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: storm 3s infinite alternate;
+        }
+        .cs-1 { width: 80px; height: 80px; top: 0; left: 20px; background: #334155; }
+        .cs-2 { width: 60px; height: 60px; top: 30px; left: -10px; background: #64748b; animation-delay: 0.5s; }
+        .cs-3 { width: 70px; height: 70px; top: 20px; left: 50px; background: #1e293b; animation-delay: 1s; }
+        
+        @keyframes storm {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10px, -10px) scale(1.1); }
+        }
+
+        /* Image 2: The Calm (Sun) */
+        .calm-art {
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, #facc15, #f59e0b);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(250, 204, 21, 0.4);
+            animation: pulseSun 4s infinite ease-in-out;
+        }
+
+        @keyframes pulseSun {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(250, 204, 21, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 100px rgba(250, 204, 21, 0.6); }
+        }
+
+        /* --- CONTENT STYLING --- */
+        .content-block {
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .content-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-block h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Positive Quote Generator */
+        .quote-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(37, 99, 235, 0.1));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 50px;
+            border: 1px solid var(--accent);
+        }
+        
+        #daily-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            min-height: 80px; /* Prevents jump when text changes */
+        }
+
+        .glow-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+        .glow-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,255,255,0.6);
+        }
+
+        @keyframes fadeUp { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SDD.</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="projects.html">Research & Projects</a>
+            <a href="experience.html">Experience & Skills</a>
+            <a href="blog1.html">Blogs</a>
+            <a href="contact.html">Contact me</a>
+        </div>
+    </nav>
+
+    <div class="blog-hero">
+        <h1>Embracing The Unknown</h1>
+        <p>Why preparation and positivity are your best tools in a chaotic world.</p>
+    </div>
+
+    <div class="blog-container">
+
+        <div class="content-block">
+            <div class="art-container">
+                <div class="chaos-art">
+                    <div class="chaos-shape cs-1"></div>
+                    <div class="chaos-shape cs-2"></div>
+                    <div class="chaos-shape cs-3"></div>
+                </div>
+            </div>
+            
+            <h2>Life is a Variable Equation</h2>
+            <p>
+                In engineering, we solve for 'X'. But in life, the variables change without warning. 
+                Whether it's a sudden career shift, a global event, or a personal challenge, 
+                <span class="highlight">uncertainty is the only certainty</span>. 
+                It is easy to feel overwhelmed when the ground shifts beneath our feet. 
+                But just like a chaotic fluid simulation eventually finds its flow, our lives have a rhythm—if we are prepared to find it.
+            </p>
+        </div>
+
+        <div class="content-block">
+            <h2>Building Your Anchor</h2>
+            <p>
+                We cannot stop the storm, but we can build a stronger ship. Preparation isn't about predicting the future; 
+                it's about building <span class="highlight">resilience</span>.
+            </p>
+            <ul style="margin: 20px 0 20px 40px; list-style-type: circle;">
+                <li style="margin-bottom: 10px;"><strong>Upskill Constantly:</strong> Just as I learned OpenFOAM and Web Development, diversifying your skills is your safety net.</li>
+                <li style="margin-bottom: 10px;"><strong>Mental Fortitude:</strong> Treat your mind like a muscle. Train it to remain calm under pressure.</li>
+                <li style="margin-bottom: 10px;"><strong>Community:</strong> Build a network. We are stronger together.</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <div class="art-container" style="background: rgba(253, 224, 71, 0.05);">
+                <div class="calm-art"></div>
+            </div>
+
+            <h2>The Power of Optimism</h2>
+            <p>
+                Positivity is not ignoring the bad; it is believing in your ability to handle it. 
+                When we approach uncertainty with <span class="highlight">curiosity instead of fear</span>, obstacles become experiments. 
+                Every failure is just data for the next iteration. Keep your face towards the sunshine, and the shadows will fall behind you.
+            </p>
+        </div>
+
+        <div class="content-block">
+            <div class="quote-box">
+                <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;"></i>
+                <div id="daily-quote">"The best way to predict the future is to create it."</div>
+                <button class="glow-btn" onclick="newQuote()">Generate Positivity</button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Somya Deep Dey | Designed with Optimism</p>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        document.querySelectorAll('.content-block').forEach((el) => observer.observe(el));
+
+        // Quote Generator
+        const quotes = [
+            "In the middle of difficulty lies opportunity. - Albert Einstein",
+            "Your attitude, not your aptitude, will determine your altitude. - Zig Ziglar",
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "It always seems impossible until it's done. - Nelson Mandela",
+            "Life is 10% what happens to us and 90% how we react to it.",
+            "Turn your face to the sun and the shadows fall behind you."
+        ];
+
+        function newQuote() {
+            const quoteText = document.getElementById('daily-quote');
+            // Fade out
+            quoteText.style.opacity = 0;
+            
+            setTimeout(() => {
+                // Change text
+                const random = Math.floor(Math.random() * quotes.length);
+                quoteText.innerText = quotes[random];
+                // Fade in
+                quoteText.style.opacity = 1;
+            }, 300);
+        }
+    </script>
+
+</body>
+</html>
