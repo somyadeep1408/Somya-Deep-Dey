@@ -1,54 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Select all elements with the 3D class
-    const cards = document.querySelectorAll('.card, .timeline-item, .hero-content');
 
-    // Add the identifier class to them automatically
-    cards.forEach(el => el.classList.add('scroll-3d-item'));
+    // ── 1. SCROLL-REVEAL (IntersectionObserver) ──
+    const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Auto-add reveal to cards that don't have it
+    document.querySelectorAll('.card, .glass-card, .timeline-item, .featured-pane, .gallery-item, .milestone, .action-card').forEach((el, i) => {
+        if (!el.classList.contains('reveal')) {
+            el.classList.add('reveal');
+            el.style.transitionDelay = `${(i % 4) * 0.08}s`;
+            revealObserver.observe(el);
+        }
+    });
+
+    // ── 2. SMOOTH 3D TILT ON SCROLL ──
+    const cards3d = document.querySelectorAll('.scroll-3d-item');
 
     const update3D = () => {
-        const viewportCenter = window.innerHeight / 2;
-
-        cards.forEach(card => {
+        const vh = window.innerHeight / 2;
+        cards3d.forEach(card => {
             const rect = card.getBoundingClientRect();
-            const cardCenter = rect.top + (rect.height / 2);
-            
-            // Calculate distance from center (Positive = below center, Negative = above)
-            const distanceFromCenter = cardCenter - viewportCenter;
-            
-            // 1. TILT EFFECT: Rotate X axis based on scroll position
-            // Limits rotation to +/- 15 degrees to keep text readable
-            let rotationX = distanceFromCenter * 0.05;
-            
-            // Clamp the values so they don't flip too far
-            if (rotationX > 15) rotationX = 15;
-            if (rotationX < -15) rotationX = -15;
-
-            // 2. DEPTH EFFECT: Scale down slightly when at edges of screen
-            // Abs() makes it work for both top and bottom
-            const scale = 1 - Math.abs(distanceFromCenter * 0.0005);
-            const clampedScale = Math.max(scale, 0.9); // Don't shrink below 90%
-
-            // Apply the Transform
-            // perspective(1000px) gives it the 3D depth
-            // rotateX tilts it forward/back
-            card.style.transform = `
-                perspective(1000px) 
-                rotateX(${-rotationX}deg) 
-                scale(${clampedScale})
-            `;
-            
-            // Adjust opacity for a "fade in" effect at edges
-            let opacity = 1 - Math.abs(distanceFromCenter * 0.0015);
-            card.style.opacity = Math.max(opacity, 0.2); // Never go fully invisible
+            const center = rect.top + rect.height / 2;
+            const dist = center - vh;
+            let rotX = dist * 0.04;
+            rotX = Math.max(-12, Math.min(12, rotX));
+            const scale = Math.max(0.92, 1 - Math.abs(dist) * 0.0004);
+            const opacity = Math.max(0.25, 1 - Math.abs(dist) * 0.0012);
+            card.style.transform = `perspective(1100px) rotateX(${-rotX}deg) scale(${scale})`;
+            card.style.opacity = opacity;
         });
     };
 
-    // Run on scroll
-    window.addEventListener('scroll', () => {
-        window.requestAnimationFrame(update3D);
+    window.addEventListener('scroll', () => requestAnimationFrame(update3D), { passive: true });
+    update3D();
+
+    // ── 3. NAV ACTIVE LINK HIGHLIGHT ──
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        if (link.getAttribute('href') === currentPage) link.classList.add('active');
     });
 
-    // Run once on load to set initial positions
-    update3D();
+    // ── 4. CURSOR GLOW (subtle, desktop only) ──
+    if (window.innerWidth > 768) {
+        const glow = document.createElement('div');
+        glow.style.cssText = `
+            position:fixed; width:320px; height:320px; border-radius:50%;
+            background:radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 70%);
+            pointer-events:none; z-index:9999; transform:translate(-50%,-50%);
+            transition: left 0.12s ease, top 0.12s ease;
+        `;
+        document.body.appendChild(glow);
+        window.addEventListener('mousemove', e => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top  = e.clientY + 'px';
+        }, { passive: true });
+    }
+
 });
+

@@ -6,123 +6,606 @@
     <title>Experience | Somya Deep Dey</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <style>
-        /* --- PAGE SPECIFIC STYLES --- */
-        
-        /* Background Canvas */
+        /* ══════════════════════════════════════════
+           EXPERIENCE PAGE — VISUAL REFRESH 2026
+        ══════════════════════════════════════════ */
+
+        /* ── Background canvas ── */
         #chem-textile-bg {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: -1;
-            background: var(--bg-color); 
-            background-image: 
+            background: var(--bg-color);
+            background-image:
                 linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 30px 30px;
             transition: background-color 0.3s ease;
         }
 
-        /* Hero Section */
+        /* ── Hero ── */
         .exp-hero {
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 120px 20px 80px;
             position: relative;
             z-index: 2;
         }
+
+        .exp-hero-eyebrow {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 50px;
+            padding: 6px 20px;
+            margin-bottom: 24px;
+        }
+
         .exp-hero h1 {
-            font-size: 3rem;
-            background: linear-gradient(to right, var(--text-color), var(--accent));
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-color) 0%, var(--accent) 60%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            background-clip: text;
+            margin-bottom: 18px;
+            line-height: 1.15;
         }
-        .exp-hero p { color: var(--text-color); opacity: 0.8; }
 
-        /* Resume Button */
+        .exp-hero p {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 1.2rem;
+            max-width: 540px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* Stat pills under hero */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 36px auto 0;
+            max-width: 600px;
+        }
+
+        .hero-stat-pill {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(8px);
+            transition: 0.3s ease;
+        }
+
+        .hero-stat-pill:hover {
+            border-color: var(--accent);
+            background: rgba(6, 182, 212, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .hero-stat-pill i { color: var(--accent); font-size: 1rem; }
+        .hero-stat-pill strong { color: var(--text-color); font-weight: 700; }
+
+        /* ── Resume button ── */
         .resume-btn {
             margin-top: 20px;
-            padding: 10px 25px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+            padding: 14px 36px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+            position: relative;
+            overflow: hidden;
         }
+
+        .resume-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: 0.3s ease;
+        }
+
         .resume-btn:hover {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.55);
         }
 
-        /* Skill Bars */
-        .skill-bar { 
-            background: var(--border-color);
-            height: 8px; 
-            border-radius: 5px; 
-            overflow: hidden; 
-            margin-top: 8px; 
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-        }
-        
-        .skill-fill { 
-            height: 100%; 
+        .resume-btn:hover::before { background: rgba(255,255,255,0.12); }
+
+        /* ── Section divider ── */
+        .section-divider {
+            width: 80px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--accent));
-            width: 0; 
-            border-radius: 5px;
-            animation: fillBar 1.5s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards; 
-            box-shadow: 0 0 10px var(--primary);
+            border-radius: 2px;
+            margin-bottom: 40px;
         }
-        
-        @keyframes fillBar { to { width: var(--w); } }
 
-        /* Timeline Icons */
+        /* ── Section heading ── */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .section-heading .heading-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .heading-icon.blue { background: rgba(37,99,235,0.15); color: var(--primary); }
+        .heading-icon.cyan { background: rgba(6,182,212,0.15); color: var(--accent); }
+
+        /* ── Timeline ── */
+        .timeline { margin-left: 25px; }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            padding: 30px 30px 30px 30px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(6px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 40px rgba(6, 182, 212, 0.12), -4px 0 0 var(--accent);
+        }
+
+        /* Connecting vertical line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
+            border-radius: 1px;
+        }
+
+        .timeline { position: relative; }
+
         .timeline-icon {
             position: absolute;
-            left: -46px; /* Adjust based on timeline padding */
-            top: 0;
-            width: 35px;
-            height: 35px;
-            background: var(--card-bg);
+            left: -58px;
+            top: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--card-bg, #1e293b);
             border: 2px solid var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
             z-index: 2;
+            overflow: hidden;
+            box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
+            transition: box-shadow 0.3s ease;
         }
 
-        /* Tools Badges */
+        .timeline-item:hover .timeline-icon {
+            box-shadow: 0 0 28px rgba(6, 182, 212, 0.5);
+        }
+
+        .timeline-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 6px;
+        }
+
+        .timeline-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 50px;
+            padding: 4px 14px;
+            margin-bottom: 12px;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .timeline-org {
+            font-style: italic;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-org i { font-size: 0.8rem; }
+
+        .timeline-item p { font-size: 1rem; line-height: 1.75; opacity: 0.85; }
+
+        /* Tag chips on timeline */
+        .timeline-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .timeline-tag {
+            font-size: 0.8rem;
+            padding: 3px 12px;
+            border-radius: 50px;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Continuing dot */
+        .timeline-continue {
+            position: relative;
+            padding: 20px 20px 20px 16px;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            opacity: 0.8;
+        }
+
+        .pulse-dot {
+            position: absolute;
+            left: -58px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
+            animation: pulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+
+        @keyframes pulse {
+            to { box-shadow: 0 0 0 28px rgba(6, 182, 212, 0); }
+        }
+
+        /* ── Skill bars ── */
+        .skill-group { margin-bottom: 28px; }
+
+        .skill-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .skill-label {
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-label i { color: var(--accent); font-size: 0.9rem; }
+
+        .skill-pct {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50px;
+            padding: 2px 10px;
+        }
+
+        .skill-bar {
+            background: var(--border-color);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0;
+            border-radius: 5px;
+            animation: fillBar 1.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fillBar { to { width: var(--w); } }
+
+        /* ── Glassmorphism cards ── */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .glass-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .glass-card-header .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(6,182,212,0.2));
+            border: 1px solid rgba(6,182,212,0.25);
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .glass-card-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* ── Tool badges ── */
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .tool-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(255,255,255,0.03);
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.04);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin: 5px 5px 5px 0;
-            transition: 0.3s;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.25s ease;
+            cursor: default;
         }
+
+        .tool-badge i { font-size: 0.85rem; color: var(--accent); }
+
         .tool-badge:hover {
             border-color: var(--accent);
             color: var(--accent);
             background: rgba(6, 182, 212, 0.1);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.15);
         }
-        
-        /* Specific tweaks for grid alignment */
+
+        /* ── Education card ── */
+        .edu-entry {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .edu-entry:last-child { border-bottom: none; padding-bottom: 0; }
+        .edu-entry:first-child { padding-top: 0; }
+
+        .edu-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .edu-degree {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .edu-year {
+            padding: 3px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .edu-year.primary { background: var(--primary); color: white; }
+        .edu-year.ghost { background: rgba(255,255,255,0.08); color: var(--text-color); }
+        .edu-year.accent { background: rgba(6, 182, 212, 0.15); color: var(--accent); border: 1px solid rgba(6,182,212,0.3); }
+
+        .edu-inst {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edu-score {
+            font-size: 0.9rem;
+            opacity: 0.65;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ── Map section ── */
+        .map-section { margin-top: 100px; margin-bottom: 60px; }
+
+        .map-section-intro {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            opacity: 0.75;
+        }
+
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        #journey-map {
+            height: 580px;
+            width: 100%;
+            border-radius: 20px;
+            z-index: 1;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow), 0 0 60px rgba(6, 182, 212, 0.06);
+            margin-top: 10px;
+        }
+
+        html:not([data-theme="light"]) .leaflet-layer {
+            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .leaflet-popup-tip { background: var(--card-bg); }
+
+        /* ── Container ── */
         .container {
             position: relative;
             z-index: 2;
             padding-bottom: 80px;
+            max-width: 1280px;
+        }
+
+        /* ── Grid ── */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 70px;
+        }
+
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Light theme overrides ── */
+        [data-theme="light"] .glass-card {
+            background: rgba(255,255,255,0.75);
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        }
+
+        [data-theme="light"] .timeline-item {
+            background: rgba(255,255,255,0.7);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        [data-theme="light"] .hero-stat-pill { background: rgba(0,0,0,0.04); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+            .timeline { margin-left: 10px; }
+            .timeline-icon { left: -48px; }
+            .pulse-dot { left: -48px; }
+            .exp-hero h1 { font-size: 2.2rem; }
+            #journey-map { height: 380px; }
+            .map-section-intro { flex-direction: column; }
         }
     </style>
 </head>
@@ -135,218 +618,337 @@
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="projects.html">Research & Projects</a>
-            <a href="experience.html"class="active">Experience & Skills</a>
+            <a href="experience.html" class="active">Experience & Skills</a>
             <a href="blog1.html">Blogs</a>
             <a href="contact.html">Contact me</a>
             <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
-            <i class="fas fa-moon"></i>
+                <i class="fas fa-moon"></i>
             </button>
         </div>
     </nav>
 
+    <!-- ══════════ HERO ══════════ -->
     <div class="exp-hero">
-        <h1>Professional Chronicles</h1>
-        <p>Bridging Academic Theory with Industrial Application</p>
-        
-        <a href="documents/Somya' vitae.pdf" download="Somya_Deep_Dey_Resume" class="resume-btn">
-            <i class="fas fa-file-download"></i> Vitae
+        <div class="exp-hero-eyebrow">
+            <i class="fas fa-briefcase" style="margin-right:6px;"></i> Professional Chronicle
+        </div>
+        <h1>Where Theory Meets<br>Real-World Impact</h1>
+        <p>Chemical Engineering meets computation, materials, and industry — a journey from Kanpur to Jodhpur and beyond.</p>
+
+        <a href="documents/Somya' vitae.pdf" download="Somya' vitae.pdf" class="resume-btn">
+            <i class="fas fa-file-download"></i> Download Vitae
         </a>
+
+        <div class="hero-stats">
+            <div class="hero-stat-pill">
+                <i class="fas fa-industry"></i>
+                <strong>3</strong> Organisations
+            </div>
+            <div class="hero-stat-pill">
+                <i class="fas fa-map-marker-alt"></i>
+                <strong>11</strong> Locations
+            </div>
+            <div class="hero-stat-pill">
+                <i class="fas fa-graduation-cap"></i>
+                <strong>3</strong> Degrees
+            </div>
+        </div>
     </div>
 
+    <!-- ══════════ MAIN GRID ══════════ -->
     <div class="container">
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px;">
-            
+        <div class="exp-grid">
+
+            <!-- ── LEFT: CAREER PATH ── -->
             <div>
-                <h2 style="margin-bottom: 30px; color: var(--primary); border-left: 5px solid var(--primary); padding-left: 15px;">
+                <div class="section-heading reveal">
+                    <div class="heading-icon blue"><i class="fas fa-route"></i></div>
                     Career Path
-                </h2>
-                
-                <div class="timeline" style="margin-left: 10px;">
-                    
-                    <div class="timeline-item scroll-3d-item">
-                        <div class="timeline-icon"><i class="fas fa-industry"></i></div>
-                        <h4 style="color: var(--accent);">July 2025 – Nov 2025</h4>
+                </div>
+                <div class="section-divider reveal" style="transition-delay:0.1s;"></div>
+
+                <div class="timeline">
+
+                    <div class="timeline-item scroll-3d-item reveal" style="transition-delay:0.15s;">
+                        <div class="timeline-icon">
+                            <img src="images/epp.png" alt="EPP Logo">
+                        </div>
+                        <span class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> Jul 2025 – Nov 2025
+                        </span>
                         <h3>Engineer</h3>
-                        <p class="meta" style="font-style: italic; color: #94a3b8;">EPP Composites Pvt. Ltd.</p>
-                        <p style="margin-top: 10px;">Led 10+ pilot-scale trials. Applied process simulation (DWSIM, ASPEN) and CFD for optimization of wastewater treatment systems.</p>
+                        <p class="timeline-org">
+                            <i class="fas fa-building"></i> EPP Composites Pvt. Ltd.
+                        </p>
+                        <p>Led 10+ pilot-scale trials. Applied process simulation (DWSIM, ASPEN) and CFD for optimization of wastewater treatment systems.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">DWSIM</span>
+                            <span class="timeline-tag">ASPEN</span>
+                            <span class="timeline-tag">WWT Design</span>
+                            <span class="timeline-tag">CFD</span>
+                        </div>
                     </div>
 
-                    <div class="timeline-item scroll-3d-item">
-                        <div class="timeline-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-                        <h4 style="color: var(--accent);">July 2023 – July 2025</h4>
+                    <div class="timeline-item scroll-3d-item reveal" style="transition-delay:0.25s;">
+                        <div class="timeline-icon">
+                            <img src="images/iitj.png" alt="IIT Jodhpur Logo">
+                        </div>
+                        <span class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> Jul 2023 – Jul 2025
+                        </span>
                         <h3>Teaching Assistant</h3>
-                        <p class="meta" style="font-style: italic; color: #94a3b8;">IIT Jodhpur</p>
-                        <p style="margin-top: 10px;">Assisted in Polymer Science and Thermodynamics. Mentored undergraduates in lab research and safety protocols.</p>
+                        <p class="timeline-org">
+                            <i class="fas fa-university"></i> IIT Jodhpur
+                        </p>
+                        <p>Assisted in Polymer Science and Thermodynamics. Mentored undergraduates in lab research and safety protocols.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">Polymer Science</span>
+                            <span class="timeline-tag">Thermodynamics</span>
+                            <span class="timeline-tag">Lab Safety</span>
+                        </div>
                     </div>
 
-                    <div class="timeline-item scroll-3d-item">
-                        <div class="timeline-icon"><i class="fas fa-flask"></i></div>
-                        <h4 style="color: var(--accent);">July 2022 – August 2022</h4>
+                    <div class="timeline-item scroll-3d-item reveal" style="transition-delay:0.35s;">
+                        <div class="timeline-icon">
+                            <img src="images/drdo.png" alt="DRDO Logo">
+                        </div>
+                        <span class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> Jul 2022 – Aug 2022
+                        </span>
                         <h3>Research Intern</h3>
-                        <p class="meta" style="font-style: italic; color: #94a3b8;">DRDO (ADRDE)</p>
-                        <p style="margin-top: 10px;">Characterized mechanical/thermal properties of aerospace fabrics and PTFE-coated Kevlar composites.</p>
+                        <p class="timeline-org">
+                            <i class="fas fa-shield-alt"></i> DRDO (ADRDE)
+                        </p>
+                        <p>Characterized mechanical/thermal properties of aerospace fabrics and PTFE-coated Kevlar composites.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">Kevlar Composites</span>
+                            <span class="timeline-tag">PTFE</span>
+                            <span class="timeline-tag">Material Characterization</span>
+                        </div>
                     </div>
+
+                    <div class="timeline-continue scroll-3d-item reveal" style="transition-delay:0.45s;">
+                        <div class="pulse-dot"></div>
+                        <span>The journey continues… <i class="fas fa-rocket" style="color: var(--accent); margin-left: 8px;"></i></span>
+                    </div>
+
                 </div>
             </div>
 
+            <!-- ── RIGHT: SKILLS + EDUCATION ── -->
             <div>
-                <h2 style="margin-bottom: 30px; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px;">
+                <div class="section-heading reveal">
+                    <div class="heading-icon cyan"><i class="fas fa-tools"></i></div>
                     Technical Arsenal
-                </h2>
-                
-                <div class="card scroll-3d-item" style="padding: 30px; margin-bottom: 30px;">
-                    
-                    <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-microscope" style="color: var(--accent);"></i> Core Competencies
-                    </h3>
+                </div>
+                <div class="section-divider reveal" style="background: linear-gradient(90deg, var(--accent), var(--primary)); transition-delay:0.1s;"></div>
 
-                    <div style="margin-bottom: 25px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                            <span>Characterization (XRD, SEM, FTIR)</span>
-                            <span style="color: var(--accent); font-weight: bold;">90%</span>
+                <!-- Core Competencies -->
+                <div class="glass-card scroll-3d-item reveal" style="transition-delay:0.2s;">
+                    <div class="glass-card-header">
+                        <div class="card-icon"><i class="fas fa-microscope"></i></div>
+                        <h3>Core Competencies</h3>
+                    </div>
+
+                    <div class="skill-group">
+                        <div class="skill-label-row">
+                            <span class="skill-label"><i class="fas fa-atom"></i> Characterization (XRD, SEM, FTIR)</span>
+                            <span class="skill-pct">90%</span>
                         </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 90%"></div></div>
                     </div>
-                    
-                    <div style="margin-bottom: 25px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                            <span>CFD (OpenFOAM/Ansys)</span>
-                            <span style="color: var(--accent); font-weight: bold;">75%</span>
+
+                    <div class="skill-group">
+                        <div class="skill-label-row">
+                            <span class="skill-label"><i class="fas fa-water"></i> CFD (OpenFOAM / Ansys)</span>
+                            <span class="skill-pct">75%</span>
                         </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 75%"></div></div>
                     </div>
 
-                    <div style="margin-bottom: 25px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                            <span>Process Simulation (ASPEN/DWSIM)</span>
-                            <span style="color: var(--accent); font-weight: bold;">65%</span>
+                    <div class="skill-group">
+                        <div class="skill-label-row">
+                            <span class="skill-label"><i class="fas fa-industry"></i> Process Simulation (ASPEN/DWSIM)</span>
+                            <span class="skill-pct">65%</span>
                         </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 65%"></div></div>
                     </div>
 
-                    <div style="margin-bottom: 10px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-                            <span>MATLAB & Python</span>
-                            <span style="color: var(--accent); font-weight: bold;">60%</span>
+                    <div class="skill-group" style="margin-bottom:0;">
+                        <div class="skill-label-row">
+                            <span class="skill-label"><i class="fas fa-code"></i> MATLAB & Python</span>
+                            <span class="skill-pct">60%</span>
                         </div>
                         <div class="skill-bar"><div class="skill-fill" style="--w: 60%"></div></div>
                     </div>
-
                 </div>
 
-                <div class="card scroll-3d-item" style="padding: 25px; margin-bottom: 30px;">
-                    <h3 style="margin-bottom: 15px; font-size: 1.1rem;">
-                        <i class="fas fa-laptop-code" style="color: var(--accent);"></i> Software & Tools
-                    </h3>
-                    <div>
-                        <span class="tool-badge">SolidWorks</span>
-                        <span class="tool-badge">Origin Pro</span>
-                        <span class="tool-badge">LaTeX</span>
-                        <span class="tool-badge">Linux (Ubuntu)</span>
-                        <span class="tool-badge">Power BI</span>
-                        <span class="tool-badge">Mendeley</span>
-                        <span class="tool-badge">Git</span>
+                <!-- Software & Tools -->
+                <div class="glass-card scroll-3d-item reveal" style="transition-delay:0.3s;">
+                    <div class="glass-card-header">
+                        <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Software & Tools</h3>
+                    </div>
+                    <div class="tools-grid">
+                        <span class="tool-badge"><i class="fas fa-cube"></i> SolidWorks</span>
+                        <span class="tool-badge"><i class="fas fa-chart-line"></i> Origin Pro</span>
+                        <span class="tool-badge"><i class="fas fa-file-alt"></i> LaTeX</span>
+                        <span class="tool-badge"><i class="fab fa-linux"></i> Linux (Ubuntu)</span>
+                        <span class="tool-badge"><i class="fas fa-chart-bar"></i> Power BI</span>
+                        <span class="tool-badge"><i class="fas fa-book"></i> Mendeley</span>
+                        <span class="tool-badge"><i class="fab fa-git-alt"></i> Git</span>
+                        <span class="tool-badge"><i class="fab fa-python"></i> Python</span>
                     </div>
                 </div>
 
-                <div class="card scroll-3d-item" style="padding: 30px; border-left: 5px solid var(--accent);">
-                    <h3><i class="fas fa-graduation-cap" style="color: var(--accent);"></i> Education</h3>
-                    
-                    <div style="margin-top: 20px;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <p style="font-size: 1.1rem; font-weight: bold;">M.Tech Chemical Engineering</p>
-                            <span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.8rem;">2025</span>
-                        </div>
-                        <p style="color: var(--accent);">IIT Jodhpur</p>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">CGPA: 8.04</p>
-                    </div>
-                    
-                    <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <p style="font-size: 1.1rem; font-weight: bold;">B.Tech Man-Made Fibre Tech</p>
-                            <span style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 5px; font-size: 0.8rem;">2023</span>
-                        </div>
-                        <p style="color: var(--accent);">UPTTI Kanpur</p>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">CGPA: 7.69</p>
+                <!-- Education -->
+                <div class="glass-card scroll-3d-item reveal" style="border-left: 4px solid var(--accent); transition-delay:0.4s;">
+                    <div class="glass-card-header">
+                        <div class="card-icon"><i class="fas fa="graduation-cap"></i></div>
+                        <h3>Education</h3>
                     </div>
 
-                    <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
-                        <p style="font-size: 1.1rem; font-weight: bold;">Diploma in Textile Chemistry</p>
-                        <p style="color: var(--accent);">Govt. Polytechnic Hapur</p>
-                        <p style="font-size: 0.9rem; opacity: 0.8;">73.68%</p>
+                    <div class="edu-entry">
+                        <div class="edu-top">
+                            <span class="edu-degree">M.Tech Chemical Engineering</span>
+                            <span class="edu-year primary">2025</span>
+                        </div>
+                        <p class="edu-inst"><i class="fas fa-university"></i> IIT Jodhpur</p>
+                        <p class="edu-score"><i class="fas fa-star"></i> CGPA: 8.04</p>
+                    </div>
+
+                    <div class="edu-entry">
+                        <div class="edu-top">
+                            <span class="edu-degree">B.Tech Man-Made Fibre Tech</span>
+                            <span class="edu-year ghost">2023</span>
+                        </div>
+                        <p class="edu-inst"><i class="fas fa-university"></i> UPTTI Kanpur</p>
+                        <p class="edu-score"><i class="fas fa-star"></i> CGPA: 7.69</p>
+                    </div>
+
+                    <div class="edu-entry">
+                        <div class="edu-top">
+                            <span class="edu-degree">Diploma in Textile Chemistry</span>
+                            <span class="edu-year accent">2020</span>
+                        </div>
+                        <p class="edu-inst"><i class="fas fa-school"></i> Govt. Polytechnic Hapur</p>
+                        <p class="edu-score"><i class="fas fa-star"></i> 73.68%</p>
                     </div>
                 </div>
 
             </div>
         </div>
+
+        <!-- ══════════ MAP ══════════ -->
+        <div class="map-section reveal">
+            <div class="map-section-intro">
+                <div>
+                    <div class="section-heading" style="margin-bottom:8px;">
+                        <div class="heading-icon cyan"><i class="fas fa-globe-asia"></i></div>
+                        Geographical Footprint
+                    </div>
+                    <p style="opacity:0.7; font-size:1.05rem; margin:0; padding-left:64px;">
+                        Mapping my academic and professional journey across India.
+                    </p>
+                </div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot"></div> Academic
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:var(--primary);"></div> Professional
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background:#94a3b8;"></div> Personal
+                    </div>
+                </div>
+            </div>
+            <div id="journey-map" class="scroll-3d-item"></div>
+        </div>
+
     </div>
 
     <footer>
-        <p>© 2026 Somya Deep Dey</p>
+        <p>© 2026 Somya Deep Dey &nbsp;·&nbsp;
+            <a href="mailto:somyadeep1408@gmail.com">somyadeep1408@gmail.com</a> &nbsp;·&nbsp;
+            Built with passion for engineering
+        </p>
     </footer>
-    
+
+    <!-- ══════════ SCRIPTS ══════════ -->
+
+    <!-- Animated hexagon background -->
+
+    <!-- Leaflet Map -->
     <script>
-        const canvas = document.getElementById('chem-textile-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
+        document.addEventListener('DOMContentLoaded', () => {
+            const map = L.map('journey-map', { zoomControl: true, scrollWheelZoom: false }).setView([22.5, 78.0], 4);
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
 
-        class Hexagon {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 20 + 10;
-                this.speedY = Math.random() * 0.5 + 0.2;
-                this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.y -= this.speedY;
-                if (this.y < -50) {
-                    this.y = height + 50;
-                    this.x = Math.random() * width;
-                }
-            }
-            draw() {
-                ctx.beginPath();
-                for (let i = 0; i < 6; i++) {
-                    ctx.lineTo(
-                        this.x + this.size * Math.cos(i * 2 * Math.PI / 6),
-                        this.y + this.size * Math.sin(i * 2 * Math.PI / 6)
-                    );
-                }
-                ctx.closePath();
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const color = isLight ? `rgba(37, 99, 235, ${this.opacity})` : `rgba(6, 182, 212, ${this.opacity})`;
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-        }
+            const locations = [
+                { name: "Bareilly, UP",          coords: [28.3670, 79.4304], desc: "Schooling",                         type: "personal" },
+                { name: "Cooch Behar, WB",        coords: [26.3288, 89.4505], desc: "Birth Place",                       type: "personal" },
+                { name: "Hapur, UP",              coords: [28.7306, 77.7759], desc: "Diploma in Textile Chemistry (GPH)", type: "academic" },
+                { name: "Kanpur, UP",             coords: [26.4499, 80.3319], desc: "B.Tech Man-Made Fibre Tech (UPTTI)", type: "academic" },
+                { name: "Agra, UP",               coords: [27.1767, 78.0081], desc: "Defense Research Intern (DRDO ADRDE)",type: "professional" },
+                { name: "Jodhpur, RJ",            coords: [26.2389, 73.0243], desc: "M.Tech Chemical Engineering (IITJ)", type: "academic" },
+                { name: "Rajkot, GJ",             coords: [22.3039, 70.8022], desc: "Process Systems Innovation (EPP)",   type: "professional" },
+                { name: "Chennai, TN",            coords: [13.0843, 80.2705], desc: "ICTAC 2025 Conference",              type: "academic" },
+                { name: "Phuentsholing, Bhutan",  coords: [26.8603, 89.3938], desc: "Family Trip",                        type: "personal" },
+                { name: "Guwahati, AS",           coords: [26.1158, 91.7086], desc: "Solo Trip",                          type: "personal" },
+                { name: "Mumbai, MH",             coords: [18.9582, 72.8321], desc: "TEXQUEST 2023 (ICT Bombay)",          type: "academic" }
+            ];
 
-        function init() {
-            resize();
-            for (let i = 0; i < 20; i++) particles.push(new Hexagon());
-        }
+            const colorMap = { academic: "#06b6d4", professional: "#2563eb", personal: "#94a3b8" };
+            const iconMap  = { academic: "🎓", professional: "🏭", personal: "📍" };
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+            locations.forEach(loc => {
+                const color = colorMap[loc.type] || "#06b6d4";
+                const icon  = L.divIcon({
+                    className: '',
+                    html: `<div style="
+                        width:36px; height:36px; border-radius:50%;
+                        background:${color}22; border:2px solid ${color};
+                        display:flex; align-items:center; justify-content:center;
+                        font-size:16px; box-shadow:0 0 12px ${color}55;
+                        cursor:pointer; transition:transform 0.2s;
+                    ">${iconMap[loc.type]}</div>`,
+                    iconSize: [36, 36],
+                    iconAnchor: [18, 18]
+                });
 
-        window.addEventListener('resize', resize);
-        init();
-        animate();
+                L.marker(loc.coords, { icon }).addTo(map).bindPopup(`
+                    <div style="padding:4px 2px;">
+                        <strong style="color:${color}; font-size:1rem;">${loc.name}</strong><br>
+                        <span style="font-size:0.9rem; opacity:0.8;">${loc.desc}</span>
+                    </div>
+                `);
+            });
+
+            setTimeout(() => map.invalidateSize(), 500);
+        });
+    </script>
+
+    <!-- Scroll-reveal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        observer.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
     </script>
 
     <script src="script.js"></script>
     <script src="theme.js"></script>
-    
 </body>
 </html>
+

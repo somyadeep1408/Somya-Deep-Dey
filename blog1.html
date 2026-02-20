@@ -3,373 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life & Uncertainty | Somya Deep Dey</title>
+    <title>Navigating Uncertainty | Somya Deep Dey</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* --- BLOG SPECIFIC STYLES --- */
-        
-        /* 1. Background is now handled by style.css variables */
-
-        .blog-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            color: var(--text-color); /* Adaptive text color */
-            line-height: 1.8;
-            font-size: 1.1rem;
-            position: relative;
-            z-index: 2; /* Sits above the canvas background */
-        }
-
-        /* Hero Typography */
         .blog-hero {
+            background: linear-gradient(135deg, #0a0f1e 0%, #1e293b 50%, #0a0f1e 100%);
+            padding: 100px 20px 70px;
             text-align: center;
-            padding: 100px 0 60px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .blog-hero h1 {
-            font-size: 4rem;
-            background: linear-gradient(to right, var(--text-color), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeUp 1s ease forwards;
-        }
-
-        .blog-hero p {
-            font-size: 1.5rem;
-            color: var(--text-color);
-            opacity: 0.8;
-            animation: fadeUp 1s ease 0.3s forwards;
-        }
-
-        /* --- CSS GENERATED IMAGES (ART) --- */
-        .art-container {
-            width: 100%;
-            height: 300px;
-            /* Adaptive Background for the box */
-            background: var(--card-bg);
-            border-radius: 20px;
-            margin: 40px 0;
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
+        }
+        .blog-hero::before {
+            content:''; position:absolute; inset:0;
+            background: radial-gradient(ellipse at center, rgba(6,182,212,0.06) 0%, transparent 70%);
+        }
+        .blog-hero-content { position:relative; z-index:2; max-width:780px; margin:0 auto; }
+        .blog-category {
+            display:inline-flex; align-items:center; gap:8px;
+            font-size:0.78rem; font-weight:700; letter-spacing:0.15em;
+            text-transform:uppercase; color:var(--accent);
+            background:var(--accent-soft); border:1px solid rgba(6,182,212,0.25);
+            border-radius:50px; padding:5px 16px; margin-bottom:20px;
+        }
+        .blog-hero h1 {
+            font-size: clamp(1.9rem,5vw,3.2rem);
+            font-weight:800; line-height:1.2; margin-bottom:20px;
+            background: linear-gradient(135deg, #e2e8f0, var(--accent));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .blog-meta {
+            display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+            gap:20px; font-size:0.9rem; opacity:0.7; margin-top:20px;
+        }
+        .blog-meta span { display:flex; align-items:center; gap:7px; }
+
+        .blog-wrapper {
+            max-width: 760px; margin: 0 auto; padding: 60px 24px 80px;
         }
 
-        /* Image 1: The Chaos (Storm) */
-        .chaos-art {
-            position: relative;
-            width: 100px; height: 100px;
+        .blog-content h2 {
+            font-size:1.6rem; font-weight:700;
+            margin:48px 0 16px; color:var(--text-color);
+            border-left:4px solid var(--accent); padding-left:16px;
         }
-        .chaos-shape {
-            position: absolute;
-            background: #475569; /* Dark clouds by default */
-            border-radius: 50%;
-            filter: blur(20px);
-            animation: storm 3s infinite alternate;
-            transition: background 0.3s;
+        .blog-content p { font-size:1.06rem; margin-bottom:22px; line-height:1.9; opacity:0.88; }
+        .blog-content blockquote {
+            border-left:3px solid var(--accent);
+            background:var(--accent-soft); padding:22px 28px;
+            border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+            margin:36px 0; font-style:italic; font-size:1.08rem;
         }
-        
-        /* LIGHT MODE OVERRIDE FOR CLOUDS */
-        html[data-theme="light"] .chaos-shape {
-            background: #cbd5e1; /* Light gray clouds in light mode */
-        }
+        .blog-content blockquote p { margin:0; opacity:1; }
 
-        .cs-1 { width: 80px; height: 80px; top: 0; left: 20px; }
-        .cs-2 { width: 60px; height: 60px; top: 30px; left: -10px; animation-delay: 0.5s; }
-        .cs-3 { width: 70px; height: 70px; top: 20px; left: 50px; animation-delay: 1s; }
-        
-        @keyframes storm {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(10px, -10px) scale(1.1); }
+        .blog-nav {
+            display:flex; justify-content:space-between; align-items:center;
+            flex-wrap:wrap; gap:16px; margin-top:60px;
+            padding-top:30px; border-top:1px solid var(--border-color);
         }
+        .blog-nav a {
+            display:flex; align-items:center; gap:8px;
+            color:var(--accent); text-decoration:none; font-weight:600; font-size:0.95rem;
+            transition:var(--transition);
+        }
+        .blog-nav a:hover { opacity:0.75; transform:translateX(3px); }
 
-        /* Image 2: The Calm (Sun) */
-        .calm-art {
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, #facc15, #f59e0b);
-            border-radius: 50%;
-            box-shadow: 0 0 60px rgba(250, 204, 21, 0.4);
-            animation: pulseSun 4s infinite ease-in-out;
+        .share-row {
+            display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:50px;
         }
-
-        @keyframes pulseSun {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(250, 204, 21, 0.4); }
-            50% { transform: scale(1.1); box-shadow: 0 0 100px rgba(250, 204, 21, 0.6); }
+        .share-btn {
+            display:inline-flex; align-items:center; gap:8px; padding:9px 20px;
+            border-radius:50px; font-size:0.88rem; font-weight:600; cursor:pointer;
+            text-decoration:none; border:1px solid var(--border-color);
+            color:var(--text-color); background:var(--card-bg);
+            transition:var(--transition);
         }
-
-        /* --- CONTENT STYLING --- */
-        .content-block {
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .content-block.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .content-block h2 {
-            font-size: 2.5rem;
-            color: var(--text-color);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent);
-            padding-left: 20px;
-        }
-        
-        .content-block p {
-            color: var(--text-color);
-            opacity: 0.9;
-        }
-
-        .highlight {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        /* Positive Quote Generator */
-        .quote-box {
-            background: var(--card-bg); /* Adaptive */
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-top: 50px;
-            border: 1px solid var(--accent);
-            box-shadow: var(--shadow);
-        }
-        
-        #daily-quote {
-            font-size: 1.5rem;
-            font-style: italic;
-            margin-bottom: 20px;
-            min-height: 80px; 
-            color: var(--text-color);
-        }
-
-        .glow-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
-        }
-        .glow-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.6);
-            background: var(--accent);
-        }
-
-        @keyframes fadeUp { to { opacity: 1; } }
-
-        /* Background Canvas */
-        #chem-textile-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            background: var(--bg-color); 
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            transition: background-color 0.3s ease;
-        }
+        .share-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
     </style>
 </head>
 <body>
-
-    <canvas id="chem-textile-bg"></canvas>
-
     <nav>
         <div class="logo">SDD.</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="projects.html">Research & Projects</a>
             <a href="experience.html">Experience & Skills</a>
-            <a href="blog1.html"class="active">Blogs</a>
+            <a href="blog.html" class="active">Blogs</a>
             <a href="contact.html">Contact me</a>
-            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
-            <i class="fas fa-moon"></i>
-            </button>
+            <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
         </div>
     </nav>
 
-    <div class="blog-hero">
-        <h1>Embracing The Unknown</h1>
-        <p>Why preparation and positivity are your best tools in a chaotic world.</p>
-    </div>
-
-    <div class="blog-container">
-
-        <div class="content-block">
-            <div class="art-container">
-                <div class="chaos-art">
-                    <div class="chaos-shape cs-1"></div>
-                    <div class="chaos-shape cs-2"></div>
-                    <div class="chaos-shape cs-3"></div>
-                </div>
-            </div>
-            
-            <h2>Life is a Variable Equation</h2>
-            <p>
-                In engineering, we solve for 'X'. But in life, the variables change without warning. 
-                Whether it's a sudden career shift, a global event, or a personal challenge, 
-                <span class="highlight">uncertainty is the only certainty</span>. 
-                It is easy to feel overwhelmed when the ground shifts beneath our feet. 
-                But just like a chaotic fluid simulation eventually finds its flow, our lives have a rhythm—if we are prepared to find it.
-            </p>
-        </div>
-
-        <div class="content-block">
-            <h2>Building Your Anchor</h2>
-            <p>
-                We cannot stop the storm, but we can build a stronger ship. Preparation isn't about predicting the future; 
-                it's about building <span class="highlight">resilience</span>.
-            </p>
-            <ul style="margin: 20px 0 20px 40px; list-style-type: circle;">
-                <li style="margin-bottom: 10px;"><strong>Upskill Constantly:</strong> Just as I learned OpenFOAM and Web Development, diversifying your skills is your safety net.</li>
-                <li style="margin-bottom: 10px;"><strong>Mental Fortitude:</strong> Treat your mind like a muscle. Train it to remain calm under pressure.</li>
-                <li style="margin-bottom: 10px;"><strong>Community:</strong> Build a network. We are stronger together.</li>
-            </ul>
-        </div>
-
-        <div class="content-block">
-            <div class="art-container">
-                <div class="calm-art"></div>
-            </div>
-
-            <h2>The Power of Optimism</h2>
-            <p>
-                Positivity is not ignoring the bad; it is believing in your ability to handle it. 
-                When we approach uncertainty with <span class="highlight">curiosity instead of fear</span>, obstacles become experiments. 
-                Every failure is just data for the next iteration. Keep your face towards the sunshine, and the shadows will fall behind you.
-            </p>
-        </div>
-
-        <div class="content-block">
-            <div class="quote-box">
-                <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;"></i>
-                <div id="daily-quote">"The best way to predict the future is to create it."</div>
-                <button class="glow-btn" onclick="newQuote()">Generate Positivity</button>
+    <header class="blog-hero">
+        <div class="blog-hero-content">
+            <span class="blog-category"><i class="fas fa-brain"></i> Mindset & Resilience</span>
+            <h1>Navigating Uncertainty:<br>A Chemical Engineer's Perspective</h1>
+            <p style="opacity:0.7; font-size:1.05rem; max-width:520px; margin:0 auto;">Why preparation and positivity are your best tools in a chaotic world.</p>
+            <div class="blog-meta">
+                <span><i class="fas fa-user"></i> Somya Deep Dey</span>
+                <span><i class="fas fa-calendar"></i> 2025</span>
+                <span><i class="fas fa-clock"></i> 4 min read</span>
             </div>
         </div>
+    </header>
 
+    <div class="blog-wrapper">
+        <article class="blog-content">
+
+            <p>In engineering, we solve for <em>'X'</em>. But in life, the variables change without warning. Whether it's a sudden career shift, a global event, or a personal challenge, uncertainty is the only certainty. It is easy to feel overwhelmed when the ground shifts beneath our feet. But just like a chaotic fluid simulation eventually finds its flow, our lives have a rhythm — if we are prepared to find it.</p>
+
+            <h2>Building Resilience, Not Just Plans</h2>
+
+            <p>We cannot stop the storm, but we can build a stronger ship. Preparation isn't about predicting the future; it's about building resilience. In process engineering, we don't design systems for the expected load — we design for the worst case, with safety factors built in. Life demands the same engineering mindset.</p>
+
+            <blockquote>
+                <p>"We cannot stop the storm, but we can build a stronger ship. Preparation isn't about predicting the future — it's about building resilience."</p>
+            </blockquote>
+
+            <h2>Positivity as an Engineering Tool</h2>
+
+            <p>Positivity is not ignoring the bad; it is believing in your ability to handle it. When we approach uncertainty with curiosity instead of fear, obstacles become experiments. Every failure is just data for the next iteration. The simulation didn't converge? Refine the mesh. The experiment didn't work? Adjust the parameters. This is the scientific method — applied to life.</p>
+
+            <p>Keep your face towards the sunshine, and the shadows will fall behind you. This is not naive optimism; it is strategic orientation toward progress.</p>
+
+            <h2>The Iteration Mindset</h2>
+
+            <p>Every great engineer knows that the first design is never the final one. CFD simulations require dozens of iterations before the solver converges. Thesis chapters go through ten drafts. Industrial processes are tweaked across hundreds of pilot runs. The same patience that makes a good researcher makes a resilient human being.</p>
+
+            <blockquote>
+                <p>"Every failure is just data for the next iteration."</p>
+            </blockquote>
+
+            <p>So the next time uncertainty comes — and it will — treat it as a boundary condition, not a wall. Define your constraints, apply your initial conditions, and let the solver run. The answer will converge.</p>
+
+        </article>
+
+        <div class="share-row reveal">
+            <span style="opacity:0.6; font-size:0.9rem; font-weight:600;">Share this post:</span>
+            <a href="#" class="share-btn"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <a href="#" class="share-btn"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#" class="share-btn"><i class="fas fa-link"></i> Copy Link</a>
+        </div>
+
+        <div class="blog-nav reveal">
+            <a href="blog.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+            <a href="index.html">Back to Home <i class="fas fa-home"></i></a>
+        </div>
     </div>
 
     <footer>
-        <p>© 2026 Somya Deep Dey | Designed with Optimism</p>
+        <p>© 2026 Somya Deep Dey &nbsp;·&nbsp;
+            <a href="mailto:somyadeep1408@gmail.com">somyadeep1408@gmail.com</a> &nbsp;·&nbsp;
+            Built with passion for engineering
+        </p>
     </footer>
-
-    <script>
-        const canvas = document.getElementById('chem-textile-bg');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        class Hexagon {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 20 + 10;
-                this.speedY = Math.random() * 0.5 + 0.2;
-                this.opacity = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.y -= this.speedY;
-                if (this.y < -50) {
-                    this.y = height + 50;
-                    this.x = Math.random() * width;
-                }
-            }
-            draw() {
-                ctx.beginPath();
-                for (let i = 0; i < 6; i++) {
-                    ctx.lineTo(
-                        this.x + this.size * Math.cos(i * 2 * Math.PI / 6),
-                        this.y + this.size * Math.sin(i * 2 * Math.PI / 6)
-                    );
-                }
-                ctx.closePath();
-                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const color = isLight ? `rgba(37, 99, 235, ${this.opacity})` : `rgba(6, 182, 212, ${this.opacity})`;
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-        }
-
-        function init() {
-            resize();
-            for (let i = 0; i < 20; i++) particles.push(new Hexagon());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', resize);
-        init();
-        animate();
-    </script>
-
-    <script>
-        // Scroll Reveal Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        });
-
-        document.querySelectorAll('.content-block').forEach((el) => observer.observe(el));
-
-        // Quote Generator
-        const quotes = [
-            "In the middle of difficulty lies opportunity. - Albert Einstein",
-            "Your attitude, not your aptitude, will determine your altitude. - Zig Ziglar",
-            "Believe you can and you're halfway there. - Theodore Roosevelt",
-            "It always seems impossible until it's done. - Nelson Mandela",
-            "Life is 10% what happens to us and 90% how we react to it.",
-            "Turn your face to the sun and the shadows fall behind you."
-        ];
-
-        function newQuote() {
-            const quoteText = document.getElementById('daily-quote');
-            quoteText.style.opacity = 0;
-            
-            setTimeout(() => {
-                const random = Math.floor(Math.random() * quotes.length);
-                quoteText.innerText = quotes[random];
-                quoteText.style.opacity = 1;
-            }, 300);
-        }
-    </script>
-    
     <script src="script.js"></script>
     <script src="theme.js"></script>
-
 </body>
 </html>
+
