@@ -212,9 +212,9 @@
             position: absolute;
             left: -58px;
             top: 24px;
-            width: 48px;
-            height: 48px;
-            background: var(--card-bg, #1e293b);
+            width: 80px;
+            height: 80px;
+            background: var(--text-color);
             border: 2px solid var(--accent);
             border-radius: 50%;
             display: flex;
@@ -710,7 +710,7 @@
 
                     <div class="timeline-item scroll-3d-item reveal" style="transition-delay:0.35s;">
                         <div class="timeline-icon">
-                            <img src="images/drdo.png" alt="DRDO Logo">
+                            <img src="images/DRDO.jpeg" alt="DRDO Logo">
                         </div>
                         <span class="timeline-date">
                             <i class="fas fa-calendar-alt"></i> Jul 2022 – Aug 2022
@@ -727,6 +727,26 @@
                         </div>
                     </div>
 
+                    <div class="timeline-item scroll-3d-item reveal" style="transition-delay:0.35s;">
+                        <div class="timeline-icon">
+                            <img src="images/iitgoa_logo.png" alt="DRDO Logo">
+                        </div>
+                        <span class="timeline-date">
+                            <i class="fas fa-calendar-alt"></i> Jul 2022 – Aug 2022
+                        </span>
+                        <h3>Junior Research Fellow</h3>
+                        <p class="timeline-org">
+                            <i class="fas fa-shield-alt"></i> IIT Goa
+                        </p>
+                        <p>Investigation of Air-to-Water Entry Dynamics of Solid Objects with Superhydrophobic and Liquid Impregnated Surfaces.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">Interface Modification</span>
+                            <span class="timeline-tag">High Speed Imaging</span>
+                            <span class="timeline-tag">Liquid Impregnated Surfaces</span>
+                            <span class="timeline-tag">Marine Engineering</span>
+                        </div>
+                    </div>
+                    
                     <div class="timeline-continue scroll-3d-item reveal" style="transition-delay:0.45s;">
                         <div class="pulse-dot"></div>
                         <span>The journey continues… <i class="fas fa-rocket" style="color: var(--accent); margin-left: 8px;"></i></span>
@@ -795,9 +815,9 @@
                         <span class="tool-badge"><i class="fas fa-file-alt"></i> LaTeX</span>
                         <span class="tool-badge"><i class="fab fa-linux"></i> Linux (Ubuntu)</span>
                         <span class="tool-badge"><i class="fas fa-chart-bar"></i> Power BI</span>
-                        <span class="tool-badge"><i class="fas fa-book"></i> Mendeley</span>
+                        <span class="tool-badge"><i class="fas fa-book"></i> OpenFoam</span>
                         <span class="tool-badge"><i class="fab fa-git-alt"></i> Git</span>
-                        <span class="tool-badge"><i class="fab fa-python"></i> Python</span>
+                        <span class="tool-badge"><i class="fab fa-python"></i> MatLab</span>
                     </div>
                 </div>
 
@@ -847,7 +867,7 @@
                         <div class="heading-icon cyan"><i class="fas fa-globe-asia"></i></div>
                         Geographical Footprint
                     </div>
-                    <p style="opacity:0.7; font-size:1.05rem; margin:0; padding-left:64px;">
+                    <p style="opacity:0.8; font-size:1.05rem; margin:0; padding-left:64px;">
                         Mapping my academic and professional journey across India.
                     </p>
                 </div>
@@ -882,53 +902,37 @@
     <!-- Leaflet Map -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const map = L.map('journey-map', { zoomControl: true, scrollWheelZoom: false }).setView([22.5, 78.0], 4);
+            const map = L.map('journey-map', { zoomControl: true, scrollWheelZoom: false }).setView([22.0, 78.0], 5);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
             const locations = [
-                { name: "Bareilly, UP",          coords: [28.3670, 79.4304], desc: "Schooling",                         type: "personal" },
-                { name: "Cooch Behar, WB",        coords: [26.3288, 89.4505], desc: "Birth Place",                       type: "personal" },
-                { name: "Hapur, UP",              coords: [28.7306, 77.7759], desc: "Diploma in Textile Chemistry (GPH)", type: "academic" },
-                { name: "Kanpur, UP",             coords: [26.4499, 80.3319], desc: "B.Tech Man-Made Fibre Tech (UPTTI)", type: "academic" },
-                { name: "Agra, UP",               coords: [27.1767, 78.0081], desc: "Defense Research Intern (DRDO ADRDE)",type: "professional" },
-                { name: "Jodhpur, RJ",            coords: [26.2389, 73.0243], desc: "M.Tech Chemical Engineering (IITJ)", type: "academic" },
-                { name: "Rajkot, GJ",             coords: [22.3039, 70.8022], desc: "Process Systems Innovation (EPP)",   type: "professional" },
-                { name: "Chennai, TN",            coords: [13.0843, 80.2705], desc: "ICTAC 2025 Conference",              type: "academic" },
-                { name: "Phuentsholing, Bhutan",  coords: [26.8603, 89.3938], desc: "Family Trip",                        type: "personal" },
-                { name: "Guwahati, AS",           coords: [26.1158, 91.7086], desc: "Solo Trip",                          type: "personal" },
-                { name: "Mumbai, MH",             coords: [18.9582, 72.8321], desc: "TEXQUEST 2023 (ICT Bombay)",          type: "academic" }
+                { name: "Bareilly, UP",          coords: [28.3670, 79.4304], desc: "Schooling"},
+                { name: "Cooch Behar, WB",        coords: [26.3288, 89.4505], desc: "Birth Place"},
+                { name: "Hapur, UP",              coords: [28.7306, 77.7759], desc: "Diploma in Textile Chemistry (GPH)"},
+                { name: "Kanpur, UP",             coords: [26.4499, 80.3319], desc: "B.Tech Man-Made Fibre Tech (UPTTI)"},
+                { name: "Agra, UP",               coords: [27.1767, 78.0081], desc: "Defense Research Intern (DRDO ADRDE)"},
+                { name: "Jodhpur, RJ",            coords: [26.2389, 73.0243], desc: "M.Tech Chemical Engineering (IITJ)"},
+                { name: "Rajkot, GJ",             coords: [22.3039, 70.8022], desc: "Process Systems Innovation (EPP)"},
+                { name: "Chennai, TN",            coords: [13.0843, 80.2705], desc: "ICTAC 2025 Conference"},
+                { name: "Phuentsholing, Bhutan",  coords: [26.8603, 89.3938], desc: "Family Trip"},
+                { name: "Guwahati, AS",           coords: [26.1158, 91.7086], desc: "Solo Trip"},
+                { name: "Mumbai, MH",             coords: [18.9582, 72.8321], desc: "TEXQUEST 2023 (ICT Bombay)"},
+                { name: "Goa",             coords: [15.2993, 74.1240], desc: "JRF @ IIT Goa"}
             ];
 
-            const colorMap = { academic: "#06b6d4", professional: "#2563eb", personal: "#94a3b8" };
-            const iconMap  = { academic: "🎓", professional: "🏭", personal: "📍" };
-
-            locations.forEach(loc => {
-                const color = colorMap[loc.type] || "#06b6d4";
-                const icon  = L.divIcon({
-                    className: '',
-                    html: `<div style="
-                        width:36px; height:36px; border-radius:50%;
-                        background:${color}22; border:2px solid ${color};
-                        display:flex; align-items:center; justify-content:center;
-                        font-size:16px; box-shadow:0 0 12px ${color}55;
-                        cursor:pointer; transition:transform 0.2s;
-                    ">${iconMap[loc.type]}</div>`,
-                    iconSize: [36, 36],
-                    iconAnchor: [18, 18]
-                });
-
-                L.marker(loc.coords, { icon }).addTo(map).bindPopup(`
-                    <div style="padding:4px 2px;">
-                        <strong style="color:${color}; font-size:1rem;">${loc.name}</strong><br>
-                        <span style="font-size:0.9rem; opacity:0.8;">${loc.desc}</span>
-                    </div>
+        locations.forEach(loc => {
+                const marker = L.marker(loc.coords).addTo(map);
+                
+                marker.bindPopup(`
+                    <strong style="color: #06b6d4; font-size: 1.1rem;">${loc.name}</strong><br>
+                    <span style="font-size: 0.9rem;">${loc.desc}</span>
                 `);
             });
-
-            setTimeout(() => map.invalidateSize(), 500);
+            
+            setTimeout(() => { map.invalidateSize(); }, 500);
         });
     </script>
 
